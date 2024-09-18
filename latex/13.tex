@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{14}{Oct 27}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+In this lecture we discussed about independent continuous random variables, the laws of large numbers, and the Central Limit Theorem.
+\section{Independent Continuous Random Variables}
+Two continuous random variables $X$ and $Y$ are \textbf{independent} if $f_{X,Y}(x, y) = f_X(x)f_Y(y)$.
+The joint PDF is the product of the marginals.
+
+A more general definition is $X$ and $Y$ are independent if and only if $F_{X,Y}(x,y)=F_X(x)F_Y(y)$. 
+This definition works when both $X$ and $Y$ are continuous random variables they are both discrete random variables.
+
+When $X$ and $Y$ are independent, we have:
+\begin{itemize}
+  \item $P(X \in A, Y \in B) = P(X \in A)P(Y \in B)$ for any sets $A$ and $B$.
+  \item $E(XY) = E(X) \times E(Y)$
+  \item $E[g(X)h(Y)] = E[g(X)]E[h(Y)]$ for any functions $g$ and $h$
+  \item $Var[X + Y] = E[(X+Y)^2] - E[X+Y]^2 = (E[X^2] - E[X]^2) + (E[Y^2] - E[Y]^2) + 2(E[XY] - E[X]E[Y])= Var[X] + Var[Y]$
+\end{itemize}
+
+\section{Laws of Large Numbers}
+Let $X_1, X_2, \ldots$ be s sequence of independent and identically distributed (i.i.d.) random variables (discrete or continuous).
+All these random variables have the same mean $\mu$ and variance $\delta^2$.
+Its sample mean $\overline{X}_n$, which is also a random variable can be defined as 
+$$\overline{X}_n = \frac{1}{n} \sum_{i=1}^{n}X_i ;\:\:\: E(\overline{X}_n) = \frac{1}{n} \sum_{i=1}^{n} E(X_i) = \mu$$
+$$var(\overline{X}_n) = var(\frac{1}{n} \sum_{i=1}^{n} X_i) = \frac{1}{n^2}var(\sum_{i=1}^{n} X_i) = \frac{1}{n^2}\sum_{i=1}^{n} var(X_i) = \frac{\sigma^2}{n}$$
+$$std(\overline{X}_n) = \frac{\sigma}{\sqrt{n}}$$
+
+\subsection{The Weak Law of Large Numbers}
+The weak law of large numbers states that as n becomes large, the distribution of the sample mean $\overline{X}_n$ is increasingly concentrated around the expected value $\mu$.
+$$P(|\overline{X}_n - \mu| \geq \epsilon) \to 0 \: as \: n \to \infty$$
+We can use Chebyshev's inequality to prove this:
+\begin{proof}
+  $$P(|\overline{X}_n - \mu| \geq \epsilon) \leq \frac{var(\overline{X}_n)}{\epsilon^2} = \frac{\sigma^2/n}{\epsilon^2} $$
+  $$ \lim_{n \to \infty}P(|\overline{X}_n - \mu| \geq \epsilon) \leq \lim_{n \to \infty}\frac{\sigma^2}{n\epsilon^2} = 0$$
+\end{proof}
+
+\subsection{The Strong Law of Large Numbers}
+The strong law of large numbers states that as n goes to infinity, the sample mean converges to $\mu$ with probability 1.
+$$P(\lim_{n \to \infty} \overline{X}_n = \mu) = 1$$
+
+Note that both laws can be applied to either discrete or continuous random variables.
+Both laws deal with the distribution of the sample mean $\overline{X}_n$ is concentrated around $\mu$ when n is large.
+However, they do not discuss what the distribution of $\overline{X}_n$ looks like. 
+
+\subsection{Central Limit Theorem}
+Let 
+$$Z_n = \frac{\overline{X}_n - \mu}{\frac{\sigma}{\sqrt{n}}}$$
+$$E(Z_n) = 0; \:\:\: Var(Z_n) = 1$$
+The Central Limit Theorem states that the CDF of $Z_n$ converges to the CDF of a standard normal random variable denoted as $\Phi$.
+That is: $$ \lim_{n \to \infty} P(Z_n \leq x) = \Phi(x)$$
+$Z_n$ is approximately distributed as $N(0,1)$ for large n. \\
+$\overline{X}_n$ is approximately distributed as $N(\mu, \frac{\sigma^2}{n})$.
+
+\section{Problems}
+1. The service times for customers coming through a checkout counter in a retail store are independent random variables with a mean of 1.5 minutes and a variance of 1.0.
+Approximate the probability that 100 customers can be served in less than 2 hours of total service time.
+
+\noindent 2. A statistician wants to estimate the mean height h (in meters) of a population, based on n independent samples $X_1, X_2, \ldots, X_n$, chosen uniformly from the entire population.
+He uses $ \overline{X}_n = \frac{(X_1+X_2+\ldots+X_n)}{n}$ the sample mean as the estimate of h, and a rough guess of 1.0m for the standard deviation of the samples $X_i$.
+\\ a) How large should n be so that the standard deviation of $\overline{X}_n$ is at most 1cm?
+\\ b) How large should n be so that Chebyshev's inequality guarantees that the estimate is within 5 centimeters from h, with a probability of at least 0.99?
+
+\section{Answer}
+1. From the question we know that $E(X_i) = 1.5;\:Var(X_i) = 1.0$. The size of the sample is $n=100$ and we can use the Central Limit Theorem to approximate the distribution of the sum of the samples $X_n$.
+$$S_{n} = X_1 + X_2 + \ldots +X_{n}$$
+$$E(S_n) = 1.5 \times 100 = 150; \: Var(S_n) = 100 \times 1.0 = 100; \: Std(S_n) = 10$$
+The Central Limited Theorem states that $S_n$ can be considered as a normal random variable. 
+We can normalize $S_n$ to a standard normal random variable.
+Let $Z_n = \frac{S_n - 150}{\sqrt{100}}$, and $E(Z_n) = 0;\:Var(Z_n) = 1$. 
+Since $S_n$ has a normal distribution, $Z_n$ also has a normal distribution and it is a standard normal random variable.
+Instead of computing the integration, we can simply refer to the Z-table to get the answer.
+$$P(S_n \leq 120) = P(\frac{S_n - 150}{10} \leq \frac{120 - 150}{10}) = P(Z_n \leq -3) = \Phi(-3) = 0.0013$$
+
+\noindent 2.
+a) 
+$$Var(\overline{X}_n) = Var(\frac{X_1 + X_2 + \ldots + X_n}{n}) = \frac{n * 1.0^2}{n^2} = \frac{1}{n}$$
+$$Std(\overline{X}_n) = \sqrt{Var(\overline{X}_n)} = \frac{1}{\sqrt{n}} \leq 0.01$$
+$$n \geq 10000$$
+
+b)
+The key insight is the expected value of $\overline{X}_n$ is the mean height of the entire population. 
+$$P(|\overline{X}_n - h| \leq 0.05) \geq 0.99 $$
+$$ P(|\overline{X}_n - E(\overline{X}_n)| \geq 0.05) \leq \frac{Var(\overline{X}_n)}{0.05^2} \leq 0.01 $$
+$$ Var(\overline{X}_n) = \frac{Var(X_i)}{n} = \frac{1^2}{n} \leq 0.01 * 0.05^2$$
+$$n \geq 40000$$
+\end{document}
+

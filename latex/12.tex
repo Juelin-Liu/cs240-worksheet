@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{13}{Oct 25}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+In this lecture, we further discussed the Von Neumann method for simulating random variables.
+We also discussed the joint PDF of multiple continuous random variables.
+The lecture ended with a discussion of Markov inequality and the Chebyshev inequality.
+
+\section{Von Neumann Method}
+The Von Neumann method can simulate any random variable (continuous or discrete) with a uniform random variable $U[0,1]$.
+Suppose a random variable $X$ has a strictly increasing CDF. 
+We can simulate $X$ by simulating its CDF.
+Let $X = F^{-1}(U)$, where $F$ is a CDF function which we don't know yet:
+\begin{align*}
+  P( X \leq x) &= P(F^{-1}(U) \leq x) \\
+               &= P(F(F^{-1}(U)) \leq F(x)) \\
+               &= P(U \leq F(x)) \\
+               &= F(x) 
+\end{align*}
+Since $P(X \leq x) = F_X(x)$ we see that $F=F_X$.
+
+\section{Joint PDF and CDF}
+Two continuous random variables associated with the same experiment have a \textbf{joint PDF $f_{X, Y}(x,y)$}.
+The joint PDF needs to satisfy two properties:
+\begin{itemize}
+  \item \textbf{Non-negativity}: $f_{X, Y}(x, y) \geq 0$ for all x and y
+  \item \textbf{Normalization}: $\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y)dx\:dy = 1$.
+\end{itemize}
+We can compute the marginal PDFs of $f_X$ and $f_Y$ as:
+$$ f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) dy$$
+$$ f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) dx$$
+The probabilities are computed by 2D integration:
+$$  P((X,Y) \in B) = \int \int_{(x, y) \in B} f_{X, Y}(x, y) dx \: dy$$
+Where $B = \{(x, y) | a \leq x \leq b, c \leq y \leq d\}$.
+
+\section{Limit Theorems}
+\subsection{Markov's Inequality}
+For any non-negative random variable $X$ and any $t > 0$:
+$$P(X \geq t) \leq \frac{E(X)}{t} $$
+
+\subsection{Chebyshev's Inequality}
+We can derive Chebyshev's inequality from Markov's inequality.
+First, we have:
+$$P(|Y| \geq t) = P(Y^2 \geq t^2) \leq \frac{E(Y)^2}{t^2} $$
+This is because $Y^2$ must be a non-negative random variable so we can apply Markov's inequality to it.
+Then, let $Y = X - E(X)$:
+$$P(|X-E(X)| \geq t) = P((X - E(X))^2 \geq t^2) \leq \frac{(X-E(X))^2}{t^2} $$
+which gives the Chebyshev's inequality:
+$$P(|X-E(X)| \geq t) \leq \frac{Var(X)}{t^2}$$
+
+\section{Problems}
+\begin{enumerate}
+  \item Let $X$, $Y$ denote two continuous uniform random variables at the interval $[0,1]$. The joint PDF of $Y_1$ and $Y_2$ can be described as:
+  \begin{equation*}
+    f_{X,Y}(x,y) = \begin{cases}
+      c & \: 0 \leq x \leq 1, 0 \leq y \leq 1 \\
+      0 & \: otherwise
+    \end{cases}
+  \end{equation*}
+  a) Find the value of c.\\
+  b) Find $P(X<0.2, Y<0.5)$\\
+  \item Suppose the joint PDF of random variable $X$ and $Y$ is given by:
+  \begin{equation*}
+    f_{X,Y}(x,y) = \begin{cases}
+      3x & \:0 \leq y \leq x \leq 1 \\
+      0 & \: otherwise
+    \end{cases}
+  \end{equation*}
+  Find $P(X<0.5, Y>0.25)$.
+  \item The joint PDF of $X$ and $Y$ is given by:
+  \begin{equation*}
+    f_{X,Y}(x,y) = \begin{cases}
+      30xy^2 & \: x-1 \leq y \leq 1-x, 0 \leq x \leq 1\\
+      0 & \: otherwise
+    \end{cases}
+  \end{equation*}
+  a) Find $P(X<0.5, Y<0.5)$ \\
+  b) Find $P(X<0.5, Y<2)$ \\
+  c) Find $P(X > Y)$
+  \item Proof Markov's inequality.
+\end{enumerate}
+
+\section{Answer}
+\begin{enumerate}
+  \item a) $\int_{0}^{1} \int_{0}^{1} c dxdy = \int_{0}^{1} c dy = c = 1$ \\
+  b) $P(X<0.2, Y<0.5) = \int_{0}^{0.5} \int_{0}^{0.2} 1 \: dxdy = \int_{0}^{0.5} 0.2 dy = 0.1$
+  \item \begin{align*}
+    P(X<0.5, Y>0.25) &= \int_{0.25}^{0.5} \int_{0.25}^{x} 3x \: dydx\\
+    &= \int_{0.25}^{0.5} 3x(x-0.25) dx \\
+    &= [x^3 - \frac{3x^2}{8}]_{0.25}^{0.5} \\
+    &= \frac{5}{128}
+  \end{align*}
+  \item a)  \begin{align*}
+    P(X<0.5, Y<0.5) &= \int_{0}^{0.5} \int_{x-1}^{0.5} 30xy^2 \: dydx\\
+    &= \int_{0}^{0.5} 10x(0.5^3 - (x-1)^3) dx \\
+    &= \frac{9}{16}
+  \end{align*} \\
+  b)  \begin{align*}
+    P(X<0.5, Y<0.5) &= \int_{0}^{0.5} \int_{x-1}^{1-x} 30xy^2 \: dydx\\
+    &= \frac{13}{16}
+  \end{align*} \\
+  c) \begin{align*}
+    P(X<0.5, Y<0.5) &= \int_{0}^{0.5} \int_{x-1}^{x} 30xy^2 \: dydx + \int_{0.5}^{1} \int_{x-1}^{1-x} 30xy^2 \: dydx\\
+    &= \frac{15}{32} + \frac{3}{16} \\
+    &= \frac{21}{32}
+  \end{align*} \\
+  \item \begin{align*}
+    E(X) &= \int_{0}^{a} xf_X(x) \: dx + \int_{a}^{\infty} xf_X(x) \: dx \\
+    &\geq \int_{a}^{\infty} xf_X(x) \: dx \\
+    &\geq \int_{a}^{\infty} af_X(x) \: dx = a\int_{a}^{\infty} f_X(x) \: dx = aP(X \geq a)
+  \end{align*} 
+  Dividing $a$ on both sides we get:
+  $$P(X \geq a) \leq \frac{E(X)}{a}$$
+\end{enumerate}
+\end{document}
+

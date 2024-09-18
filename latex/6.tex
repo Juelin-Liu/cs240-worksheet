@@ -1,0 +1,152 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{8}{September 29}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+This lecture discussed expected value and variance. 
+
+\section{Expectation \& Variance}
+For a discrete random variable, its expected value can be computed using the following formula:
+$$E(X) = \sum_{x \in R} xP(X=x)$$
+Its variance, which measures how far we expect this random variable to be from its expected value:
+$$Var(X) = E[(X - E(X)^2)] = \sum_{k} (k - E(X))^2 \times P(X=k)$$
+Or alternatively:
+$$Var(X) = E(X^2) - E(X)^2$$
+
+\subsection{Linearity of Expectation}
+If $Y = aX+b$ where a and b are real numbers: 
+\begin{align*}
+  E(Y) &= E(aX + b) = aE(X) + b \\
+  Var(Y) &= Var(aX + b) 
+  \\ &= E((aX + b)^2) - E(aX + b)^2 
+  \\ &= E((a^2X^2 + 2abX + b^2) - (aE(X) + b)^2 
+  \\ &= a^2E(X^2) + 2abE(X) + b^2 - a^2E(X)^2 - 2abE(X) - b^2 
+  \\ &= a^2 (E(X^2) - E(X)^2) 
+  \\ &= a^2Var(X)
+\end{align*}
+Note: it is \textbf{not} generally true that $E[g(X)] = g(E(X))$ unless $g(X)$ is a linear function.
+
+\subsection{Discrete Uniform}
+A discrete uniform random variable with range [a, b] takes on any integer value between a and b inclusive. (For simplicity we assume a and b are integers.)
+Each value has the same probability.
+Its PMF is:
+$$P(X = k) = \frac{1}{b - a + 1} \: for \: k = a, \ldots, b$$
+Its expected value is:
+$$E(X) = \frac{a+b}{2}$$
+Its variance is:
+$$Var(X) = \frac{(b-a)(b-a+12)}{12}$$
+
+\subsection{Bernoulli}
+A Bernoulli random variable has two possible outcomes. We use 1 (success) or 0 (fail) to represent the two outcomes. 
+Its PMF is often described as:
+$$P(X = 1) = p \: \text{and} \: P(X = 0) = 1 - p$$
+Its expected value is:
+$$E(X) = (1-p) \times 0 + 1 \times p = p$$
+Its variance is:
+$$Var(X) = p - p^2$$
+
+\subsection{Binomial}
+A binomial random variable is associated with the number of successful trials in several independent Bernoulli trials.
+In this formula, n is the total number of independent Bernoulli trials, x is the number of successful trials and p is the probability that a Bernoulli trial is successful.
+Its PMF is:
+$$P(X = k) = {n \choose x} \times p^k \times (1-p)^{n-k}$$
+Its expected value is:
+$$E(X) = \sum_{k=0}^n k \times {n \choose k} p^k (1-p)^{n-k} = np$$
+Its variance is:
+$$Var(X) = np(1-p)$$
+
+\subsection{Gemometric}
+A geometric random variable is associated with the number of independent Bernoulli trials required to come up with the first successful trial. 
+$$P(X = k) = (1-p)^{k-1} \times p$$
+Its expected value is:
+$$E(X) = \sum_{k=0}^{\infty} k(1-p)^{k-1}p = \frac{1}{p}$$
+Its variance is:
+$$Var(X) = \frac{1-p}{p^2}$$
+
+\subsection{Poisson}
+A Poisson random variable is associated with the number of times a random and independent event occurs in a fixed interval.
+In this formula, $\lambda$ is the expected number of occurrences, $k$ is the actual number of occurrences and $e$ is the Euler's number.
+$$P(X = k) = \frac{e^{-\lambda}\lambda^k}{k!}$$
+Its expected value is:
+$$E(X) = \sum_{k=0}^{\infty} k\frac{e^{-\lambda}\lambda^k}{k!} = \lambda $$
+Its variance is:
+$$Var(X) = \lambda$$
+
+\section{Practice Problems}
+\begin{enumerate}
+  \item Let $X$ be a random variable with PMF:
+  \begin{equation*}
+    P(X=x) = 
+    \begin{cases}
+    \frac{x^2}{a} & \text{if x = -3,-2,-1,0,1,2,3} \\ 
+    0 & \text{otherwise}
+    \end{cases}
+  \end{equation*}
+  \\ a) Find a and $E(X)$
+  \\ b) What is the PMF of the random variable $Z = (X - E(X))^2$
+  \\ c) Using the result from part (b), find the variance of X.
+  \\ d) Find the variance of X using the formula $Var(X) = \sum_{x} (x - E(X))^2P(X=x)$.
+  \item As an advertising campaign, a chocolate factory places golden tickets in some of its candy bars, with the promise that a golden ticket is worth a trip through the chocolate factory, and all the chocolate you can eat for life. If the probability of finding a golden ticket is p, find the mean and the variance of the number of candy bars you need to eat to find a ticket.
+  \item Show that the variance of a Poisson random variable with mean $\lambda$ is also $\lambda$.
+\end{enumerate}
+
+\section{Answers}
+\begin{enumerate}
+  \item a) $\frac{1}{a} \times (1^2+2^2+3^2 + 0 + (-1)^2+(-2)^2+(-3)^2) = 1$, $a = 28$, $E(X) = \sum_{x=-3}^{3} \frac{x^3}{28} = 0$
+  \\ b) If $z \in \{1,4,9\}$, $P(Z=z) = \frac{z}{14}$; Otherwise $P(Z=z) = 0$.
+  \\ c) $Var(X) = E(Z) = \sum_{z \in \{1,4,9\}} \frac{z^2}{14} = 7$
+  \\ d) $Var(X) = \sum_{x} (x - E(X))^2P(X=x) = 7$
+  \item The number C of candy bars you need to eat is a geometric random variable with parameter p. Thus the mean is $E(C) = \frac{1}{p}$, and the variance is $var(C) = \frac{1-p}{p^2}$.
+  \item 
+  \begin{align*}
+    Var(X) &= E(X^2) - E(X)^2 
+    \\ &= E(X(X-1) + X) - E(X)^2 
+    \\ &= E(X(X-1)) + E(X) - E(X)^2 
+    \\ &= \sum_{x=0}^{\infty} x(x-1)\frac{e^{-\lambda} \lambda^x}{x!} + \lambda - \lambda^2
+    \\ &= \lambda^2 \sum_{y=0}^{\infty} \frac{e^{-\lambda} \lambda^y}{y!} + \lambda - \lambda^2 \: (y = x - 2)
+    \\ &= \lambda^2 + \lambda - \lambda^2
+    \\ &= \lambda 
+  \end{align*}
+\end{enumerate}
+\end{document}
+

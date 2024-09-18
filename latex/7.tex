@@ -1,0 +1,144 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{9}{Oct 4}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+This lecture discussed functions of random variables and standard deviation. 
+
+\section{Functions of Random Variables}
+For a random variable $X$, we can define a new random variable $Y = f(X)$ where $f$ is a function.
+Then we have:
+$$E(Y) = \sum_{y} yP(Y=y) = \sum_{x} f(x)P(X=x)$$
+
+\subsection{Recap Linear Function}
+If $Y = aX+b$ where a and b are real numbers: 
+\begin{align*}
+  Var(Y) &= Var(aX + b) 
+  \\ &= \sum_{k} (ak+b-E(aX+b))^2P(X=k)
+  \\ &= \sum_{k} (ak + b - aE(X) - b)^2P(X=k)
+  \\ &= \sum_{k} (ak - aE(X))^2P(X=k)
+  \\ &= \sum_{k} (a^2k^2 - 2a^2kE(X) + a^2E(X)^2 ) P(X=k)
+  \\ &= a^2 \sum_{k} (k^2 - 2kE(X) + E(X)^2 ) P(X=k)
+  \\ &= a^2 \sum_{k} k^2 P(X=k) - a^2 \sum_{k} 2kE(X) P(X=k) + a^2 \sum_{k} E(X)^2 P(X=k)
+  \\ &= a^2 E(X^2) - 2 a^2E(X)^2 + a^2 E(X)^2
+  \\ &= a^2 E(X^2) - a^2 E(X)^2
+  \\ &= a^2 Var(X)
+  \\ E(Y) &= E(aX + b) = aE(X) + b
+\end{align*}
+
+Note: it is \textbf{not} generally true that $E[g(X)] = g(E(X))$ unless $g(X)$ is a linear function.
+\section{Standard Deviation}
+The standard deviation of a random variable is the non-negative square root of its variance.
+$$std(X) = \sqrt{var(X)}$$
+
+% \subsection{Discrete Uniform}
+% A discrete uniform random variable with range [a, b] takes on any integer value between a and b inclusive. (For simplicity we assume a and b are integers.)
+% Each value has the same probability.
+% Its PMF is:
+% $$P(X = k) = \frac{1}{b - a + 1} \: for \: k = a, \ldots, b$$
+% Its expected value is:
+% $$E(X) = \frac{a+b}{2}$$
+% Its variance is:
+% $$Var(X) = \frac{(b-a)(b-a+12)}{12}$$
+
+% \subsection{Bernoulli}
+% A Bernoulli random variable has two possible outcomes. We use 1 (success) or 0 (fail) to represent the two outcomes. 
+% Its PMF is often described as:
+% $$P(X = 1) = p \: \text{and} \: P(X = 0) = 1 - p$$
+% Its expected value is:
+% $$E(X) = (1-p) \times 0 + 1 \times p = p$$
+% Its variance is:
+% $$Var(X) = p - p^2$$
+
+% \subsection{Binomial}
+% A binomial random variable is associated with the number of successful trials in several independent Bernoulli trials.
+% In this formula, n is the total number of independent Bernoulli trials, x is the number of successful trials and p is the probability that a Bernoulli trial is successful.
+% Its PMF is:
+% $$P(X = k) = {n \choose x} \times p^k \times (1-p)^{n-k}$$
+% Its expected value is:
+% $$E(X) = \sum_{k=0}^n k \times {n \choose k} p^k (1-p)^{n-k} = np$$
+% Its variance is:
+% $$Var(X) = np(1-p)$$
+
+% \subsection{Gemometric}
+% A geometric random variable is associated with the number of independent Bernoulli trials required to come up for the first successful trial. 
+% $$P(X = k) = (1-p)^{k-1} \times p$$
+% Its expected value is:
+% $$E(X) = \sum_{k=0}^{\infty} k(1-p)^{k-1}p = \frac{1}{p}$$
+% Its variance is:
+% $$Var(X) = \frac{1-p}{p^2}$$
+
+% \subsection{Poisson}
+% A Poisson random variable is associated with the number of times a random and independent event occurs in a fixed interval.
+% In this formular, $\lambda$ is the expected number of occurances, $k$ is the actual number of occurances and $e$ is the Euler's number.
+% $$P(X = k) = \frac{e^{-\lambda}\lambda^k}{k!}$$
+% Its expected value is:
+% $$E(X) = \sum_{k=0}^{\infty} k\frac{e^{-\lambda}\lambda^k}{k!} = \lambda $$
+% Its variance is:
+% $$Var(X) = \lambda$$
+
+\section{Practice Problems}
+\begin{enumerate}
+  \item The number of imperfections in the weave of a certain textile has a Poisson distribution with a mean of 4 per square yard. Find the probability that a
+  \\ a) A 1-square-yard sample will contain at least one imperfection. %0.982
+  \\ b) A 3-square-yard sample will contain at least one imperfection. %P(X >=1 ) = 1-e^{-12}
+  \\ c) The cost of repairing the imperfections in the weave is 10 dollars per imperfection. Find the mean and standard deviation of the repair cost for an 8-square-yard bolt of the textile.
+  \item Two assembly lines I and II have the same rate of defectives. Five regulators are sampled from each line and tested. Among the total of 10 tested regulators, 4 are defective. Find the probability that exactly 2 of the defective regulators came from line I.
+  % 0.476
+\end{enumerate}
+
+\section{Answers}
+\begin{enumerate}
+  \item a) $P(X \geq 1) = 1 - P(X = 0) = 1 - \frac{e^{-4} \times 4^0}{0!} = 0.982$
+  \\ b) Let Y be the number of imperfections in a 3-square-yard sample. 
+  \\ Y has a Poisson distribution with a mean of 12.
+  $$P(Y >= 1) = 1 - \frac{e^{-12} \times 12^0}{0!}$$
+  \\ c) Let Z be the number of imperfections in an 8-square-yard sample. 
+  \\ Z has a Poisson distribution with a mean of 32.
+  \\ $Var(Z) = E(Z) = 4 \times 8 = 32$. 
+  \\ The repairing cost can be represented as R = 10Z. 
+  \\ $E(R) = E(10Z) = 320$, $std(R) = \sqrt{var(R)} = \sqrt{10^2 \times 32} = 40\sqrt{2}$
+  \item $P(X=2) = {5 \choose 2} \times {5 \choose 2} \div {10 \choose 4}  = 0.476$
+\end{enumerate}
+\end{document}
+

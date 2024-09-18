@@ -1,0 +1,137 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{6}{September 22}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+\section{Introduction}
+This lecture reviews the four counting methods. We always hope the counting questions in the homework/exams are straightforward.
+The fact is the ones we encountered can be very tricky. 
+This worksheet discusses some counting problems and the strategies to handle them. 
+(Random variables will be discussed in the next week.)
+
+\section{More on Counting}
+\subsection{Letter Arrangement}
+\subsubsection{Unique Letters}
+Think about how many different ways you can arrange the letters in the word "python".
+This is the simplest case because all the characters in "python" are unique. 
+The number of different arrangements is the permutation of the 6 letters \{p,y,t,h,o,n\}, which is 6! = 720.
+
+\subsubsection{Duplicate Letters}
+Then think about how many different ways you can arrange the letters in the word "java".
+You have two a in the word which makes it tricky. I would recommend you list all the arrangements first.
+
+There are two ways to think about this, both can give you the right answer.
+
+The first way is to use permutation first and then remove duplicates.
+We can think of the two $a$ as two different letters $a_1$ and $a_2$.
+If we list all possible permutations we will find that $j-a_1-v-a_2$ and $j-a_2-v-a_1$ are both counted.
+The two $a$ cause the same arrangement to be counted twice (if there are three $a$ we will count the same arrangement for $3!$ times.)
+
+To avoid double counting, we need to divide $4!$ (permutation of the four letters) by $2!$ (double counted due to two $a$) which gives $\frac{4!}{2!} = 12$.
+
+The second way is to think in terms of partition. Essentially, we are choosing the slots for each unique letter. 
+If we fix the two slots for $a$, no matter how we arrange them inside the two slots, we will have the same arrangement if the others are the same.
+In other words, if we determine the slots for a letter then there is only one way to arrange this letter regardless of its number of occurrences in the word. 
+Now the question becomes how many different ways we have to assign slots to each letter (two 'a' are considered as the same letter but take two slots.)
+This is the partition of the slots based on each unique letter's number of occurrences. So the result is $\frac{4!}{1! \times 2! \times 1!} = 12$ 
+
+\subsubsection{More Than One Duplicate Letters}
+If you understand the second way mentioned above, you can use the same method here.
+
+\subsection{Seat Arrangement}
+Seat arrangement problems can be tricky depending on how the question is asked. The common setting is you have n slots and n people and you need to arrange these people in a row while meeting certain constraints.
+The main difficulty is to interpret these constraints and translate them into mathematical formulas accurately. 
+While there is no such one-fits-all strategy, try to think about the following:
+\begin{enumerate}
+  \item How many \textbf{distinct objects} you have.
+  \item How many \textbf{slots} you can freely assign to the objects? (You might have n slots but due to the constraint you cannot freely assign each of them.)
+  \item How many different ways you can arrange each of the \textbf{distinct object} if its slot is fixed? (Each distinct object might have more than one element.)
+\end{enumerate}
+
+\subsection{Round Table}
+The round table assumes the people are sitting in a round table of size n. Use the same method mentioned above to get the answer and divide it by a factor of n.
+This is because there are n ways to represent the same arrangement in the circle through rotation. 
+
+\subsection{Mind Teaser}
+The most interesting (difficult) counting questions are mind teasers. 
+Usually, you won't see the solution right away. Instead, you need to break it down into many smaller/easier subproblems and handle each of them.
+I would recommend you take your time and do it one step at a time...
+
+\section{Practice Problems}
+\begin{enumerate}
+  \item How many different letter arrangements can be made from the letters: a) swift b) c++ c) gogolang
+  \item In how many ways can 9 people be seated if a) there are no restrictions on the arrangements. b) person A and B must be sit together. c) There are 4 women and 5 men and no 2 women or 2 men can sit next to each other. d) There are 4 married couples and each couple must sit next to each other.
+  \item If an ant starts at the origin (0) of a one-dimensional coordinate system. The ant can move either left or right by one unit of distance with equal probability. After the ant moves 10 times, which point it most likely ends at.
+  \item A six-sided die is rolled three times independently. Which is more likely: a sum of 9 or a sum of 11?
+\end{enumerate}
+
+\section{Answer}
+\begin{enumerate}
+  \item a) $5!$ 
+  \\ the permutation of the 5 letters.
+  \\ b) $\frac{3!}{2!}$ 
+  \\ the permutation of the 4 letters divided by the duplicates caused by the two + in the word.
+  \\ c) $\frac{8!}{3! \times 2!}$ 
+  \\ the permutation of the 8 letters divided by the duplicates caused by the three g and two o.
+  \item a) $9!$ 
+  \\ permutation of the 9 people  
+  \\ b) $8! \times 2$ 
+  \\Consider A and B as a big person, along with the other 7 normal people. We have $8!$ ways to arrange the 8 (7+1) people. For each arrangement, there are two different ways that A and B can be placed.
+  \\ c) $ 5! \times 4!$ 
+  \\ Numbering the slots from left to right as 1,2,3,...,9. 
+  We can first consider how to arrange based on gender. 
+  It turns out there is only one way: 
+  \begin{enumerate}
+    \item the 5 men sit on the odd slots and the 4 women sit on the even slots 
+  \end{enumerate}
+  In this case, there are 4! ways to arrange the women. For each of the arrangements, there are $5!$ ways to arrange men.
+  \\ d) $5! \times 2^4$ 
+  \\ You can think of a married couple as a big set, there are 4+1 distinct sets to arrange (5!). 
+  After arranging the position for a set, we have two ways to arrange the two people's relative positions within the set ($2 \times 2 \times 2 \times 2$).
+  \item The most likely position is (0).
+  \\ There are 11 possible positions: $\{-10,-8,-6,-4,-2,0,2,4,6,8,10\}$. Compute the probability for each position to get the maximum. 
+  Also, you can think about when the probability mass function (PMF) of a binomial distribution is maximum.
+  \item $P(S_3=11) = \frac{27}{216}$, $P(S_3=9) = \frac{25}{216}$ ($S_n$ denotes the sum of the n tosses) 
+  \\ When $S_3 = 9$, we have 6 result sets: \{6,2,1\}, \{5,3,1\}, \{5,2,2\}, \{4,4,1\}, \{4,3,2\}, \{3,3,3\}. This gives $3! + 3! + \frac{3!}{2!} + \frac{3!}{2!} + 3! + \frac{3!}{3!} = 25$ different arrangements.
+  \\ When $S_3 = 11$, we have 6 result sets: \{6,4,1\}, \{6,3,2\}, \{5,5,1\}, \{5,4,2\}, \{5,3,3\},\{4,4,3\} and this gives: $3! + 3! + \frac{3!}{2!} + 3!  + \frac{3!}{2!}+ \frac{3!}{2!} = 27$ different arrangements.
+\end{enumerate}
+\end{document}
+

@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document}
+
+\lecture{5}{September 20}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+\section{Introduction}
+This lecture covers four counting methods: permutations, k-permutations, combinations, and partitions.
+
+\section{Counting}
+\subsection{Counting Principle}
+Intuitively, if there are $a$ ways to do the first thing and regardless of which way to choose there are $b$ ways to do the second thing, then there are $a \times b$ ways to do both.
+
+\subsection{Permutation}
+Permutation is a method to count the number of ways to order (N=n) objects.
+$$P_n^{n} = n \times (n - 1) \times \ldots \times 1 = n!$$
+
+\subsection{k-Permutation}
+k-Permutation is a method to count the number of ways to form a sequence of size k using k different objects from a set of n objects.
+$$P_k^{n} = \frac{n!}{(n-k)!}$$
+
+\subsection{Combination}
+Combination counts the number of size k subsets of a size n set.
+$$C_k^{n} = \left(\begin{array}{c} n \\ k \end{array}\right) = \frac{n!}{k! \times (n - k)!} = C_{n - k}^n$$
+
+\subsection{Partition}
+Partition counts the number of ways to partition n objects into $l$ groups of size $n_1, \ldots, n_l$.
+$$\left( \begin{array}{c} n \\ n_1, \ldots, n_l \end{array} \right) = \frac{n!}{n_1! \times n_2! \times \ldots \times n_l!}$$
+
+\section{Practice Problems}
+\begin{enumerate}
+  \item How many different letter arrangements can be made from the letters: a) python b) javascript c) hypertext
+  \item In how many ways can 8 people be seated if a) there are no restrictions on the arrangements. b) person A and B must be sit together. c) There are 4 women and 4 men and no 2 women or 2 men can sit next to each other. d) There are 4 married couples and each couple must sit next to each other.
+  \item A six-sided die is rolled three times independently. Which is more likely: a sum of 11 or a sum of 12?
+  \item If an ant starts at the origin (0) of a one-dimensional coordinate system. The ant can move either left or right by one unit of distance with equal probability. After the ant moves 10 times, what is the probability that it ends at the point (6)?
+  \item Eight rooks are placed in distinct squares of an $8 \times 8$ chessboard, with all possible placements being equally likely. Find the probability that all the rooks are safe from one another (that there is no row or column with more than one rook.)
+\end{enumerate}
+
+\section{Answer}
+\begin{enumerate}
+  \item a): $6!$ 
+  \\ the permutation of the 6 letters.
+  \\ b) $\frac{10!}{2!}$ 
+  \\ the permutation of the 10 letters divided by the duplicates caused by the two a in the word.
+  \\ c) $\frac{9!}{2! \times 2!}$ 
+  \\ the permutation of the 9 letters divided by the duplicates caused by the two e and two t.
+  \item a) $8!$ 
+  \\ permutation of the 8 people  
+  \\ b) $7! \times 2$ 
+  \\Consider A and B as a big person, along with the other 6 normal people. We have $7!$ ways to arrange the 7 (6+1) people. For each arrangement, there are two different ways that A and B can be placed.
+  \\ c) $2 \times 4! \times 4!$ 
+  \\ Numbering the slots from left to right as 1,2,3,...,8. 
+  We can first consider how to arrange based on gender. 
+  It turns out there are two ways: 
+  \begin{enumerate}
+    \item the 4 men sit on the odd slots and the 4 women sit on the even slots 
+    \item the 4 men sit on the even slots and the 4 women sit on the odd slots.
+  \end{enumerate}
+  In each case, there are 4! ways to arrange women and men respectively.
+  \\ d) $4! \times 2^4$ 
+  \\ You can think of a married couple as a big object, there are 4 distinct objects to arrange (4!). 
+  After arranging the position for each couple, for each couple, we have two ways to arrange the two people's relative position ($2 \times 2 \times 2 \times 2$).
+  \item $P(S_3=11) = \frac{27}{216}$, $P(S_3=12) = \frac{25}{216}$ ($S_n$ denotes the sum of the n tosses) 
+  \\ The most straightforward method is to simply list all possible outcomes.
+  However, this method can be error-prone. 
+  Consider the case where the sum is 11, 
+  how many different ways we can choose $\{x_1,x_2,x_3\}$ where:
+  $$x_1 + x_2 + x_3 = 11$$
+  $$x_1 \in \{1,2,3,4,5,6\}$$
+  $$x_2 \in \{1,2,3,4,5,6\}$$
+  $$x_3 \in \{1,2,3,4,5,6\}$$
+  
+  Since we need to consider the order of the elements, we will list cases like \{6,4,1\},\{6,1,4\}, and \{4,6,1\} where each set contains the same elements but a different arrangement.
+  The trick is to list all sets of results with unique elements first and then consider the number of arrangements.
+  \\ There are 6 different sets of results that sum up to 11: \{6,4,1\}, \{6,3,2\}, \{5,5,1\}, \{5,4,2\}, \{5,3,3\},\{4,4,3\}.
+  The number of different arrangements for these results is $3!, \: 3!, \: \frac{3!}{2!}, \: 3!, \: \frac{3!}{2!}, \: \frac{3!}{2!} $. Adding them up we get: 6+6+3+6+3+3=27.
+  \item $P(X_{10}=6) = \left(\begin{array}{c} 10 \\ 2 \end{array}\right) \times \frac{1}{2^{10}}$ ($X_n$ denotes the position of the ant after moving n times)
+  \\ The sample space consists of $2^{10}$ elements.
+  At each step, the ant has two choices and it has moved 10 steps ($\frac{1}{2^{10}}$). To end at point (6), the ant needs to move L exactly 2 times and R exactly 8 times, which gives $C_2^{10}$ different cases.
+  \item $\frac{64 \times 49 \times 36 \times 25 \times 16 \times 9 \times 4 \times 1}{C_8^{64}}$ 
+  \\ When placing the first rook, there are no restraints so it has 64 possible cases. The second rook cannot be placed on the column/row where the first was placed. 
+  The valid region for placing the second rook is a broad consisting of $(8-1) \times (8-1) = 49$ positions.
+  Similarly, the third rook has $(8-2) \times (8-2) = 36$ valid positions to put on. Considering all 8 rooks we get $64 \times 49 \times 36 \times 25 \times 16 \times 9 \times 4 \times 1$ cases. The sample space is choosing 8 positions from the 64 positions on the board ($C_8^{64}$).
+\end{enumerate}
+
+\end{document}

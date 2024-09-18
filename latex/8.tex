@@ -1,0 +1,112 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{10}{Oct 6}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+This lecture discussed multiple random variables and the functions of two random variables. 
+
+\section{Multiple Random Variables}
+\subsection{Two Random Variables}
+We start by discussing the case of two random variables. Consider two random variables X and Y associated with the same experiment.
+For $x, y \in R$, we can define the events of the form:
+$$ \{X=x,Y=y\}=\{X=x\}\cap\{Y=y\} $$
+The probabilities of these events give the \textbf{joint PMF} of X and Y:
+\begin{align*}
+  p_{X, Y} (x, y) &= P(X=x, Y=y)
+  \\ &= P(X = x \: and \: Y=y)
+  \\ &= P({X=x} \cap {Y=y})
+\end{align*}
+This is useful for describing multiple properties of a single experiment.
+
+You can visualize the PMF of two random variables as a three-dimensional graph. In this graph, the z-axis represents the joint probability given the value of x and y of the two random variables. 
+
+One question is can we retrieve the PMF of a single random variable from the joint PMF?
+The answer is yes and:
+$$ P(X=x) = \sum_{y} P(X=x \cap Y=y)$$
+$$ P(Y=y) = \sum_{x} P(X=x \cap Y=y)$$
+To compute the probability of X=x, we sum up all the probabilities in the joint PMF where X=x.
+It works because of the total probability theorem. 
+
+We say that $P(X=x)$ is the \textbf{marginal PMF} of X and $P(Y=y)$ is the \textbf{marginal PMF} of Y if we start with the joint PMF of X and Y.
+
+\subsection{Functions of Two Random Variables}
+Naturally, we can create a new random variable by applying a function on two random variables just like applying a function to a single random variable.
+For example, let $Z = f(X, Y) = X + Y$. Then the expected value of Z can be computed by:
+\begin{align*}
+  E(Z)   &= \sum_{z} zP(Z=z) 
+      \\ &= \sum_{x,y}(x+y)P(X=x, Y=y) 
+      \\ &= \sum_{x,y}xP(X=x, Y=y) + \sum_{x,y}yP(X=x, Y=y) 
+      \\ &= \sum_{x}x \sum_{y} P(X=x, Y=y) + \sum_{y}y \sum_{x} P(X=x, Y=y) 
+      \\ &= \sum_{x}xP(X) + \sum_{y}yP(Y=y)
+      \\ &= E(X) + E(Y) 
+\end{align*}
+
+\subsection{Expectation of Products of Independent Variables}
+\textbf{Lemma:} If $X$ and $Y$ are independent then $E(XY) = E(X)E(Y)$
+
+This is because $P(X=x \cap Y=y) = P(X=x)P(Y=y)$ if X and Y are independent
+\begin{proof}
+  \begin{align*}
+    E(XY) &= \sum_{a}\sum_{b}ab P(X=a, Y=b)
+    \\ &= \sum_{a}\sum_{b}ab P(X=a) P(Y=b)
+    \\ &= \sum_{a} a P(X=a) \sum_{b}b P(Y=b)
+    \\ &= E(X)E(Y)
+  \end{align*}
+\end{proof}
+
+\subsection{Variance of Products of Independent Variables}
+\textbf{Lemma:} If $X$ and $Y$ are independent then $Var(X + Y) = Var(X) + Var(Y)$
+
+This is because $E(XY) = E(X)E(Y)$ if X and Y are independent as shown above
+\begin{proof}
+  \begin{align*}
+    Var(X+Y) &= E((X+Y)^2) - E(X+Y)^2
+    \\ &= E(X^2 + 2XY + Y^2) - (E(X) + E(Y))^2 
+    \\ &= E(X^2) + 2E(XY) + E(Y^2) - E(X)^2 - 2E(X)E(Y) - E(Y)^2 
+    \\ &= (E(X^2) - E(X)^2) + (E(Y^2) - E(Y)^2) + 2(E(XY) - E(X)E(Y))
+    \\ &= Var(X) + Var(Y) + 2 \times 0
+    \\ &= Var(X) + Var(Y)
+  \end{align*}
+\end{proof}
+\end{document}
+

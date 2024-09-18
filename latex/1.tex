@@ -1,0 +1,235 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document}
+
+\lecture{1-3}{September 13}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+\section{Introduction}
+
+Welcome to CS240 Reasoning Under Uncertainty!
+This class is about learning mathematical tools that help you reason under uncertain circumstances. 
+
+This worksheet reviews the materials discussed in the first three lectures.
+
+The first lecture introduced set theory, set algebra, and probabilistic models. 
+
+The second lecture discussed the inclusion and exclusion principle, discrete probability models, odds, and conditional probability.
+
+The third lecture discussed the Monty Hall problem, the total probability theorem, and the Bayes' Rule.
+
+% \section{Course Logistics}
+
+% \subsection{ Grading }
+
+% The grading is based on:
+% \begin{itemize}
+%   \item 10 weekly quizzes ($10\%$)
+%   \item 4 homework ($20\%$, lowest grade dropped)
+%   \item $1^{st}$ mid-term ($20\%$, Oct 13)
+%   \item $2^{nd}$ mid-term ($20\%$, Nov 4)
+%   \item Final ($30\%$, Dec 15)
+% \end{itemize}
+
+% \subsection{ Lecture }
+% \begin{itemize}
+%   \item Students must wear masks in class.
+%   \item All the lectures will be recorded.
+%   \item The slide will be available (on Moodle) one day before the class. 
+%   \item The slide will exclude the solutions to some problems. They will be discussed in class.
+% \end{itemize}
+% \subsection{ Homework }
+% \begin{itemize}
+%   \item Submit to Gradescope before the deadline.
+%   \item Match questions to the corresponding pages to get full score.
+%   \item Late submission will not be accepted unless you have a medical note.
+% \end{itemize}
+
+\section{Set theory}
+\subsection{Core Concepts}
+\begin{itemize}
+  \item An event is a \textbf{set} of outcomes.
+  \item A set is a collection of objects.
+  \item The objects are called elements of the set.
+\end{itemize}
+\subsection{Notations}
+
+\subsubsection{Empty Set}
+\begin{itemize}
+  \item $\emptyset$: empty set, the set with zero object.
+\end{itemize}
+
+\subsubsection{Universal Set}
+\begin{itemize}
+  \item $\Omega$: universal set, the set that contains all possible objects.
+\end{itemize}
+
+\subsubsection{Element}
+We say $x \in S$ if the set $S$ contains element $x$. (otherwise, $x \notin S$)
+
+\subsubsection{Subset}
+We say $S \subset T$ if all elements in $S$ are also in $T$ ($\emptyset \subset S \subset \Omega$.)
+\\ \noindent Note that in the textbook $\subset$ and $\subseteq$ have the same meaning. If $S \subset T$ then $S$ can be equivalent to $T$.
+
+\subsubsection{Complement}
+The complement of a set $S$ is defined as:
+$$ S^{c} = \{ x \in \Omega \: | \: x \notin S \} $$
+Some useful laws:
+ $$ \Omega^{c} = \emptyset $$
+ $$ \emptyset^{c} = \Omega $$
+ $$ (S^{c})^{c} = S $$
+\subsubsection{Power Set}
+The power set $P^{S}$ is the set that contains all subsets of $S$. \\
+\noindent The cardinality (size) of the power set $|P^{S}| = 2^{|S|}$. \\
+\noindent For example, $S = \{1,2\}$, its power set $P^{S} = \{\emptyset, \{1\}, \{2\}, \{1,2\} \}$.
+
+\subsubsection{Disjoint Sets}
+Two sets are disjoint if their intersection is the empty set.
+$$ A \cap B = \emptyset \iff \text{A and B are disjoint}$$
+\subsubsection{Partition}
+We say $S_1, S_2, \ldots, S_n $ form a partition of $S$ if $i \neq j \implies S_i \cap S_j = \emptyset$ and $S_1 \cup S_2 \cup \ldots \cup S_n = S$.
+
+\section{Set algebra}
+\subsection{Set Operation}
+\subsubsection{Union}
+$$ S \cup T =  \{ x | x \in S \: or \: x \in T \}$$
+
+\subsubsection{Intersection}
+$$ S \cap T =  \{ x | x \in S \: and \: x \in T\}$$
+
+\subsubsection{Important Laws}
+DeMorgan's Laws:
+$$(S \cap T)^{c} = S^{c} \cup T^{c}$$
+$$(S \cup T)^{c} = S^{c} \cap T^{c}$$
+
+\noindent Union Distributivity:
+$$S \cup (T \cap U) = (S \cup T) \cap (S \cup U) $$
+
+\noindent (think about how to show these laws using the Venn diagrams)
+
+\section{Probabilistic models}
+We use probabilistic models to describe uncertain situations mathematically. The three key factors are:
+\begin{itemize}
+  \item \textbf{Experiment}: an experiment with a set $\Omega$ of all possible outcomes.
+  \item \textbf{Event}: a set of outcomes (which is a subset of $\Omega$.)
+  \item \textbf{Probability Law}: $P(A) \geq 0 \: \text{for} \: ( A \subset \Omega)$
+\end{itemize}
+
+\section{Inclusion-Exclusion Principle}
+% Intuition: 
+% $$|A \cup B| = |A| + |B| - |A \cap B| $$
+% \noindent Recall that an event is a \textbf{set} of outcomes:
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+% \noindent Similarly:
+% $$|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|$$
+$$P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$$
+
+\section{Discrete Probability Models}
+We are dealing with discrete probability models if $\Omega$ consists of a finite number of possible outcomes.
+
+\subsection{Uniform Discrete Model}
+All possible outcomes in $\Omega$ are equally likely.
+
+\subsection{Odds}
+The odds are x to y in favor of A means $P(A) = \frac{x}{x+y}$
+
+\subsection{Odds Ratio}
+$$Odds(A) = \frac{P(A)}{P(A^c)} = \frac{P(A)}{1 - P(A)}$$
+
+\section{Conditional Probability} 
+General Definition:
+$$P(A | B) = \frac{P(A \cap B)}{P(B)}$$
+
+$P(A | B)$ denotes the conditional probability of A given B.
+
+When $B$ is given, the sample space changes to $B$ and the event space changes to $A \cap B$. 
+
+\subsection{Sequential Model}
+Before discussing the details, it is worth to mention the multiplication rule:
+$$P(\bigcap_{i=1}^{n} A_i) = P(A_1)P(A_2 | A_1)P(A_3 | A_1 \cap A_2) \ldots P(A_n | \bigcap_{i=1}^{n-1} A_{i})$$
+The intuition is instead of computing $P(\bigcap_{i=1}^{n} A)$ as a whole, we can break it into a series of events that depend on the previous outcomes. 
+Then we can compute each event's probability and multiply them together to get the result.
+
+We can use a sequential model when the future outcomes depend on the previous outcomes. 
+The tree-based sequential description can help you visualize this process.
+
+\section{Monty Hall}
+The Monty Hall problem is a mind teaser. 
+People can be (easily) tricked into believing that choosing either of the remaining doors has the same chance of winning.
+But keep in mind that the revealing of one of the goat doors is not at random (which is difficult to understand.)
+Since the host never revealed the door picked by the contestant, we gained no additional information by choosing the door picked by the contestant. 
+So the chances of winning stays at $\frac{1}{3}$ if not switching.
+
+\section{Total Probability Theorem}
+Definition:
+
+Let $A_1, A_2, \ldots, A_n$ be disjoint events that form a partition of the sample space $\Omega$ and assume $P(A_i) > 0$ for all i. 
+Then, for any event B, we have: 
+$$P(B) = P(A_1 \cap B) + \ldots + P(A_n \cap B)$$
+
+\noindent Proof (from the textbook, p29):
+
+The events $A_1, A_2, \ldots, A_n$ form a partition of the sample space so that the event B can be decomposed into the disjoint union of its intersections $A_i \cap B$ with the sets $A_i$:
+$$ B = (A_1 \cap B) \cup \ldots \cup (A_n \cap B)$$
+Using the additivity axiom (see lecture 1, p42), it follows that:
+$$ P(B) = P(A_1 \cap B) + \ldots + P(A_n \cap B)$$
+
+\section{Bayes' Rules}
+Intuition:
+
+$A_1, A_2, \ldots, A_n$ are related to the "causes" and $B$ represent the effect.
+We use Bayes' rule to infer the causes based on our observed effect. (textbook, p32) \newline
+\newline \noindent Definition:
+
+Let $A_1, A_2, \ldots, A_n$ be disjoint events that form a partition of the sample space $\Omega$ and assume $P(A_i) > 0$ for all i. 
+Then, for any event B such that $P(B) > 0$, we have: 
+$$P(A_i | B) = \frac{P(A_i)P(B | A_i)}{P(B)} = \frac{P(A_i)P(B | A_i)}{P(A_1)P(B | A_1) + \ldots + P(A_n)P(B | A_n)}$$
+
+\noindent Proof:
+
+The first equality comes from the definition of conditional probability and the second uses the total probability theorem to rewrite $P(B)$. 
+
+\section{Practice problems}
+\begin{enumerate}
+  \item Think about how to prove DeMorgan's laws (hint: think from an element's perspective).
+\end{enumerate}
+
+% \noindent \textbf{Answer:}
+
+\end{document}

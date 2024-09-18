@@ -1,0 +1,128 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{11-17}{Oct 18-Nov 10}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+The second mid-term will cover materials from lecture 11 to 17. This worksheet will summarize them. 
+
+\section{Continuous Random Variables}
+Continuous random variables can take a continuous range of values as outcomes.
+We can use continuous random variables to approximate discrete random variables.
+Using powerful calculus tools, we can significantly speed up the computation through approximation. (ex. Poisson vs Binominal) 
+
+\subsection{Probability Density Function}
+For a continuous random variable $X$, its probability density function $f_X(x)$ describes its probability at any real interval.
+Perhaps the most striking property of PDF is that at any particular point, we have:
+\begin{equation}
+  P(X=k) = \int_k^k f_X(x) dx = F_X(k) - F_X(k) = 0
+\end{equation}
+
+Another property of PDF is:
+$$P(-\infty < X < \infty) = \int_{-\infty}^{\infty} f_X(x) dx = 1$$
+
+\subsection{Cumulative Distribution Function}
+$F_X$ mentioned in equation (1) is the cumulative distribution function of $X$. 
+It computes the probability that X is less than or equal to a given value: $P(X \leq k) = F_X(k)$. 
+
+The probability of $X$ in a real interval can be considered as the $area$ under the PDF graph within that interval. 
+$F_X(k)$ represents the area within the interval $(-\infty, k]$.
+It can be computed through integration:
+$$F_X(k) = \int_{-\infty}^{k} f_X(x) dx$$
+
+Note that one use case of CDF is to analyze the maxima of independent random variables:
+\begin{align*}
+  P(max(X_1, X_2) \leq k) &= P(X_1 \leq k \: and \: X_2 \leq k) 
+  \\ &= P(X_1 \leq k) P(X_2 \leq k)
+  \\ &= F_{X_1}(k)F_{X_2}(k)
+\end{align*}
+
+\subsection{Expected Value \& Variance}
+For a continuous random variable $X$, its expected value can be computed as the following:
+$$E(X) = \int_{-\infty}^{\infty} xf_X(x) dx$$
+\noindent Its variance can be computed as the following:
+$$Var(X) = E((x - E(X))^2) = \int_{-\infty}^{\infty} (x - E(X))^2 f_X(x) dx$$
+Notice that $E(X)$ is a constant, we can always move it to the outside of the integration like other constants:
+\begin{align*}
+  \int_{-\infty}^{\infty} (x - E(X))^2 f_X(x) dx &= \int_{-\infty}^{\infty} (x^2 - 2xE(X) + E(X)^2) f_X(x) dx 
+  \\ &= \int_{-\infty}^{\infty} x^2 f_X(x) dx - 2E(X) \int_{-\infty}^{\infty} xf_X(x)dx + E(X)^2 \int_{-\infty}^{\infty} f_X(x)dx
+  \\ &= E(X^2) - 2E(X) E(X) + E(X)^2 \times 1
+  \\ &= E(X^2) - E(X)^2
+\end{align*}
+which means:
+$$Var(X) = E(X^2) - E(X)^2$$
+
+\section{Practice Problems}
+\begin{enumerate}
+  \item Let X be a continuous random variable with probability density function given by:
+  \begin{equation*}
+    f_X(x) = 
+    \begin{cases}
+      3x^2 & 0 \leq x \leq 1 \\
+      0 & otherwise
+    \end{cases}
+  \end{equation*}
+  Find $F_X$ and draw the graph for both $f_X$ and $F_X$. Is $f_X$ a valid probability density function?
+  \item Given that 
+  \begin{equation*}
+    f_X(x) = \begin{cases}
+      cx^2 & 0 \leq x \leq 2 \\
+      0 & otherwise
+    \end{cases}
+  \end{equation*}
+   a) Find the value of c for which f(x) is a valid density function. \\
+   b) After determining the value of c, find $P(1 \leq x \leq 2)$ and $P(1 < x < 2)$. \\
+   c) Find $E(X)$ and $Var(X)$. 
+  \item The proportion of time per day that all checkout counters in a supermarket are busy is a random variable X with density function
+  \begin{equation*}
+    f_X(x) = 
+    \begin{cases}
+      cx^2(1-x)^4 & 0 \leq x \leq 1 \\
+      0 & elsewhere
+    \end{cases}
+  \end{equation*}
+  a) Find the value of c that makes $f_X(x)$ a probability density function. \\
+  b) Find $E(X)$ and $Var(X)$. (hint: you can use your calculator)
+  \item If $X$ is a continuous random variable such that $E((X - k)^2) < \infty$ for all k, show that $E((X - k)^2)$ is minimized when $k = E(X)$.
+\end{enumerate}
+\end{document}
+

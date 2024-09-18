@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{7}{September 27}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+This lecture discussed several discrete random variables. 
+They are the discrete uniform random variables, Bernoulli random variables, binomial random variables, geometric random variables, and Poisson random variables. 
+
+\section{Random Variables}
+A random variable is a real-valued function that maps from the sample space to real numbers.
+A random variable is discrete if the set of values that it can take is either finite or countably infinite.
+A discrete random variable has an associated probability mass function or PMF denoted as $P_X(x) = P(X=x)$.
+The PMF gives the probability of each numerical value that the random variable can take.
+It has the following properties:
+$$\sum_{x}P_X(x) = 1$$
+
+\subsection{Discrete Uniform Random Variables}
+A discrete uniform random variable with range [a, b] takes on any integer value between a and b inclusive.
+Each value has the same probability.
+Its PMF is:
+$$P(X = k) = \frac{1}{b - a + 1} \: for \: k = a, \ldots, b$$
+
+\subsection{Bernoulli Random Variables}
+A Bernoulli random variable has two possible outcomes. We use 1 (success) or 0 (fail) to represent the two outcomes. 
+Its PMF is often described as:
+$$P(X = 1) = p \: \text{and} \: P(X = 0) = 1 - p$$
+
+\subsection{Binomial Random Variables}
+A binomial random variable is associated with the number of successful trials in several independent Bernoulli trials.
+In this formula, n is the total number of independent Bernoulli trials, x is the number of successful trials and p is the probability that a Bernoulli trial is successful.
+Its PMF is:
+$$P(X = k) = {n \choose x} \times p^k \times (1-p)^{n-k}$$
+
+\subsection{Gemometric Random Variables}
+A geometric random variable is associated with the number of independent Bernoulli trials required to come up with the first successful trial. 
+$$P(X = k) = (1-p)^{k-1} \times p$$
+
+\subsection{Poisson Random Variables}
+A Poisson random variable is associated with the number of times a random and independent event occurs in a fixed interval.
+In this formula, $\lambda$ is the expected number of occurrences, $k$ is the actual number of occurrences and $e$ is the Euler's number.
+$$P(X = k) = \frac{e^{-\lambda}\lambda^k}{k!}$$
+
+\section{Practice Problems}
+
+\begin{enumerate}
+  \item You go to a party with 500 guests. What is the probability that exactly one other guest has the same birthday as you? Calculate this exactly and also approximately by using the Poisson PMF. (For simplicity. exclude birthdays on February 29.)
+  \item Fischer and Spassky play a chess match in which the first player to win a game wins the match. After 10 successive draws. the match is declared drawn. Each game is won by Fischer with a probability of 0.4, is won by Spassky with a probability of 0.3, and is a draw with a probability of 0.3, independent of previous games.
+  \\a) What is the probability that Fischer wins the match?
+  \\b) What is the PMF of the duration of the match?
+  \item An internet service provider uses 50 modems to serve the needs of 1000 customers. It is estimated that at a given time. each customer will need a connection with a probability of 0.01, independent of the other customers.
+  \\a) What is the PMF of the number of modems in use at the given time?
+  \\b) Repeat part (a) by approximating the PMF of the number of customers that
+  need a connection with a Poisson PMF.
+  \\c) What is the probability that more customers need a connection than there are modems? Provide an exact. as well as an approximate formula based on the Poisson approximation of part (b).
+\end{enumerate}
+
+\section{Answers}
+\begin{enumerate}
+  \item The number of guests that have the same birthday as you is binomial with p = 1/365 and n = 499. Thus the probability that exactly one other guest has the same birthday is
+  ${499 \choose 1} \times (\frac{1}{365})^1 \times (\frac{364}{365})^{498}$
+  \item 
+  a) $P(F \: wins) = \sum_{x=1}^{10} 0.3^{x-1} \times 0.4$
+  \\ b) $P(X=x) = 0 (x > 10)$, $P(X=10) = 0.3^9 $, $P(X=x) = 0.3^{x-1} \times 0.7 \: (0 \leq x \leq 9)$
+  \item 
+  a) Let X be the number of modems in use. For $k < 50$, the probability that X = k is the same as the probability that k out of 1000 customers need a connection:
+  $$P(X=x) = {1000 \choose x} \times 0.01^{x} \times 0.99^{1000 - x} \: k = 0,1,\ldots,49$$
+  The probability that $X = 50$ is the same as the probability that 50 or more out of 1000 customers need a connection:
+  $$P(X=50) = \sum_{k=50}^{1000} {1000 \choose k} (0.01)^k(0.99)^{1000-k} $$
+  \\ b) $\lambda = 1000 \times 0.01 = 10$ 
+  $$P(X=x) = \frac{e^{-10} 10^x }{x!} \: x = 1,2,\ldots,49$$
+  $$P(X=50) = \sum_{k=50}^{1000}e^{-10}\frac{10^k}{k!}$$
+  \\ c) Let A be the event that more customers need a connection than there are modems. Then, 
+  $$P(A) = \sum_{51}^{1000}{1000 \choose k} (0.01)^k (0.99)^{1000-k}$$
+  With Poisson approximation, $P(A)$ is estimated by:
+  $$\sum_{k=51}^{1000}e^{-10}\frac{10^k}{k!}$$
+\end{enumerate}
+\end{document}
+

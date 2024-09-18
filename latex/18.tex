@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{18-19}{Nov 8}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+These lectures covered the Markov Chain.
+
+\section{Markov Chain}
+A Markov chain is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the previous event. [Wikipedia]
+Intuitively, you can use a Markov chain to predict how the system will look in the future given its current state.
+
+\subsection{Discrete Time Markov Chains}
+The state changes at certain discrete time instances, indexed by an integer variable n.
+
+\subsection{Markov Property}
+It says that the probability of the system being at a particular state depends only on its previous state.
+$$P(X_{n+1} = j | X_n=i, X_{n-1} = s_{n-1} \ldots) = P(X_{n+1} | X_n = i)$$
+
+\subsection{Transition Probability Graph}
+A Markov chain can be described using a transition probability graph whose nodes are the states and whose arrows are the possible transitions.
+
+\subsection{Chapman-Kolmogorov Equation}
+It formularizes how you can compute the distribution of $X_n$ given the distribution of its previous states
+$$v_n = [P(X_n=0), P(X_n=1), \ldots P(X_n=k)] = [\sum_{i} p_{i0}v_{n-1}[i], \ldots, \sum_{i} p_{ik}v_{n-1}[i]]$$
+
+If the Markov chain is encoded as a \textbf{transition probability matrix} A:
+$$v_n = v_{n-1}A = v_0A^n$$
+
+\subsection{Steady State Distribution}
+If $v = vA$ we say $v$ is a steady state distribution of the Markov Chain.
+It is essentially the left eigenvector of matrix A associated with eigenvalue 1.
+
+% (Note, in linear algebra we have learned how to compute the right eigenvector of a matrix. 
+% That is compute $v$ when $Av=kv$. 
+% Now suppose you want to compute the steady state where $v = vA$.
+% Taking transpose on both sides gives $A^Tv^T = v^T$. You just need to find the eigenvector of $A^T$ associated with eigenvalue 1.)
+\subsection{Recurrent State}
+A state i is recurrent if for every state j that is accessible from i, state i is also accessible from j.
+
+\subsection{Trainsient State}
+A state that is not recurrent.
+
+\subsection{Recurrent Class}
+A recurrent class $A(i)$ contains the set of states that are accessible from the recurrent state i.
+
+\subsection{Periodic v Aperiodic}
+A recurrent Markov chain is called periodic if there is some $t \in \{2,3,\ldots\}$ such that there exists a state s which can be visited only at time $\{t,2t,3t,\ldots\}$ steps.
+If t = 1 we call the chain aperiodic.
+
+\begin{theorem}
+A Markov Chain with a single aperiodic recurrent class has a steady state regardless of the initial state.
+\end{theorem}
+
+\section{Problems}
+1. Consider a Markov chain with 2 states and a transition matrix:
+$$A = \begin{pmatrix}
+  1 - a & a \\
+  b & 1 - b
+\end{pmatrix}$$
+When does A has a single recurrent class? When is it aperiodic?
+If this Markov Chain has a single aperiodic recurrent class, what are its steady states?
+
+\section{Answer}
+This Markov chain has a single recurrent class when $S_1$ can reach $S_2$ and $S_2$ can reach $S_1$ too. 
+It occurs when $a > 0$ and $b > 0$. 
+
+This single recurrent class is aperiodic when either $S_1$ or $S_2$ has a self-loop (or both have self-loops). 
+That is $1 - a > 0$ or $1 - b > 0$.
+
+Suppose its steady state is $v = <c, 1-c>$.
+
+Then $vA = <c \times (1-a) + (1-c) \times b, c \times a + c \times (1-b)> = <c - ac + b - bc, ac + c - bc> $
+
+Since $vA = v$, we have $<c - ac + b - bc, ac + c - bc> = <c, 1-c>$.
+
+This allows us to write c in terms of a and b:
+$c = \frac{b}{a+b}, \:\: 1-c = \frac{a}{a+b}$ and $v = <\frac{b}{a+b}, \frac{a}{a+b}>$
+
+(a and b are variables in this case, but they might be constant in other questions).
+\end{document}
+

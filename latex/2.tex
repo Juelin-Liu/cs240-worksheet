@@ -1,0 +1,92 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document}
+
+\lecture{4}{September 15}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+\section{Introduction}
+This lecture covers independence, conditional independence, and the counting principle (not covered in this worksheet).
+
+\section{Independence}
+Definition:
+
+We say events A and B are independent events if and only if:
+$$ P(A \cap B) = P(A) \times P(B)$$
+
+In addition, if $P(B) > 0$:
+$$P(A | B) = P(A)$$
+
+Note:
+The definition says that the occurrence of event A does not change the probability that event B has occurred (and vice versa.)
+
+It is easy to think that two disjoint events are independent but this is \textbf{not true}.
+The fact is two disjoint events A, B are not independent if $P(A) > 0 \text{{ and }} P(B) > 0$.
+The best practice is to always verify the equation in the above definition. 
+
+\section{Independence of Many Events}
+Definition:
+
+We say that the events $A_1, A_2, \ldots, A_n$ are independent if and only if:
+$$P(\bigcap_{i \in S}A_i) = \prod_{i \in S}P(A_i)$$
+
+for \textbf{every} subset S of $\{1,2,\ldots, n\}$.
+
+\section{Conditional Independence}
+Definition:
+
+We say A and B are conditionally independent given C ($P(C) > 0$) if and only if:
+$$P(A \cap B | C) = P(A | C) P(B | C)$$
+
+In addition, if $P(B \cap C) > 0$:
+$$P(A | B \cap C) = P(A | C)$$
+
+\section{Practice Problems}
+\begin{enumerate}
+   \item Alice and Bob want to choose between the opera and the movies by tossing a fair coin. Unfortunately, the only available coin is biased (though the bias is not known exactly). How can they use the biased coin to decide so that either option (opera or the movies) is equally likely to be chosen?
+\end{enumerate}
+
+\noindent \textbf{Answer:}
+
+The trick is to toss the coin twice. If the first outcome is head and the second is tail, go for the opera. If the first outcome is the tail and the second is the head, go for the movie. In other cases, Alice and Bob need to toss the coin twice for another round.
+
+The sample space of tossing the coin twice consists of four possible outcomes: $S = \{HH, TT, HT, TH\}$. We know that $P(HT) = P(TH)$ because the first toss and second toss are independent events. By limiting the sample space to $S^{'} = \{HT, TH\}$, we make the two outcomes equally likely. Formally, let $A_k$ be the event that a decision is made at the $k^{th}$ round, conditional on the event $A_k$ we have:
+$$P(opera) = \sum_{k=1}^{\infty} P(opera \: | \: A_k) P(A_k) = \sum_{k=1}^{\infty} \frac{1}{2} P(A_k) = \frac{1}{2}$$
+We have assumed $P(H) > 0$ and $P(T) > 0$ so $\sum_{k=0}^{\infty}P(A_k) = 1$.
+\end{document}

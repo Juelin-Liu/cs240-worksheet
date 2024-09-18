@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{16}{Nov 3}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+In this lecture, we introduced the Game Theory.
+
+\section{Game Theory}
+Game theory studies what happens when self-interested players interact.
+A player's benefits can be represented using a payoff matrix that maps the actions to real numbers.
+% For example, let player $P_1$ has n different startegies and player $P_2$ has m different strategies. 
+% There are $n \times m$ different combinations of strategies, and each gives some benefits to $P_1$ and $P_2$.
+% We can use two matrices to represent the benefits for $P_1$ and $P_2$ respectively, or we can use a payoff matrix to combine the two.
+\subsection{Elements In A Game}
+There are several elements in a game
+\begin{itemize}
+  \item We limit the number of players to 2, so we have player A and player B.
+  \item Each player has a set of strategies. 
+  We denote the strategy chosen by player $A$ as $a$.
+  \item A \textbf{strategy profile} $s = (a, b)$ specifies the strategy that is chosen by each player. 
+  \item Each player has a payoff function (denoted as $u_A$ and $u_B$.) 
+  Given the strategy profile, $u_A(s)$ returns the payoff for $A$, and $u_B(s)$ returns the payoff for $B$.
+\end{itemize}
+We assume each player knows the payoff function throughout the game including the payoff functions for the other players.
+
+\subsection{Terminologies}
+\textbf{Payoff Function}
+
+\textbf{Dominant Strategies}
+\begin{enumerate}
+  \item Strategy $a$ \textbf{strictly dominates} $a^{\prime}$: \\
+  Choosing $a$ always gives a better outcome than choosing $a^{\prime}$, no matter what the other players do.
+  \item Strategy $a$ is \textbf{strictly dominant}: \\
+  Strategy $a$ strictly dominates any other strategies of player $A$.
+  \item Strategy $a^{\prime}$ is \textbf{strictly dominated} by strategy $a$: \\
+  Strategy $a$ strictly dominates $a^{\prime}$.
+\end{enumerate}
+\textbf{Nash equilibrium}
+is a stable state of the system that involves several interacting participants in which no player can gain by a change of strategy as long as all the other participants remain unchanged.
+\begin{theorem}
+Every game where each player has a finite number of strategies has at least one Nash equilibrium.
+\end{theorem}
+\noindent A strategy profile is a Nash equilibrium if $A$'s strategy $a$ is a 'best response' to what $B$ does and vice versa.
+
+\subsection{Prisoner Dilemma}
+In this setting, it's easy to see what will happen. 
+Whatever A does, B is better off confessing. Whatever B does, A is better off confessing.
+So they will both confess. This is because both players in the game have a dominant strategy (confess).
+
+\subsection{Hawks and Doves}
+In this setting, Neither A nor B has a dominant strategy. 
+Even though there is no equilibrium in dominant strategies, it turns out that there exist at least two Nash equilibria: (H, D) and (D, H).
+This shows there might exist multiple Nash equilibria in the game.
+
+\subsection{Mixed Strategy}
+Intuitively, a Nash equilibrium is established when all the players stick to a strategy profile because each player cannot get a better payoff by changing his/her strategy if other players stay the same.
+
+The intuition of the mixed strategy is each player randomizes his/her strategy to nullify the other player's efforts to maximize their expected payoff.
+For example, player A randomizes his/her strategy such that player B's expected payoff is irrelevant to how B chooses his/her strategy.
+Player B can randomize his/her strategy such that player A's expected payoff is irrelevant to how A chooses his/her strategy.
+Under this scenario, both A and B do not have incentive to change their strategies and this is a Nash equilibrium by definition.
+% Of course, making other players obtain less payoff does not necessarily make you better off (unless the game is zero-sum).
+% However, Nash equilibrium is not about finding the optimal strategies that maximize one player's payoff by definition.
+
+\section{Problem}
+1. Find the Nash equilibrium of a game with the following payoff matrix:
+\begin{center}
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    A, B  &  i    & j    & k     \\ \hline
+    i     &  6, 6 & 10,15& 3, 7  \\ \hline
+    j     &  12,3 & 5,  5& 2, 8  \\ \hline
+    k     &  8, 0 & 20, 3& 4, 4  \\ \hline
+  \end{tabular}
+\end{center}
+
+\noindent 2. Suppose A and B play tennis. 
+If A serves to a side where B stands he loses the point, 
+if A serves to a side where B does not stand, he wins the point.
+The payoff matrix for this game is as follows:
+\begin{center}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    A, B  &  Left & Right \\ \hline
+    Left  &  -1,1 & 1, -1 \\ \hline
+    Right &  1,-1 & -1, 1 \\ \hline
+  \end{tabular}
+\end{center}
+\noindent Find a Nash equilibrium for this setting?
+
+\noindent 3. For the Hawk and Dove example discussed in class, the following payoff matrix is given. 
+If A and B play Hawk with probability p = q = 0.2 is a mixed-strategy Nash equilibrium, what is the value of a?
+\begin{center}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    A, B  &  Left    & Right \\ \hline
+    Left  &  -25,-25 & 50, 0 \\ \hline
+    Right &  0,  50  & a, a \\ \hline
+  \end{tabular}
+\end{center}
+
+\section{Answer}
+1. Nash equilibrium at <k, k>
+\begin{enumerate}
+  \item For player A: k dominates i
+  \item For player B: k dominates i and j
+  \item For player A: k dominates j
+\end{enumerate}
+
+\noindent 2. Let's assume A randomize his strategy so he plays left with probability t and right with probability 1 - t and player B's payoff is irrelevant to his/her strategy. Then
+$$t + (1-t)(-1) = (-1)t + (1-t)$$
+$$t = 0.5$$
+We can obtain B's mixed strategy in the same way.
+So both players play each strategy with a probability of 0.5.
+
+\noindent 3. 
+$$-25q + 50(1-q) = 0 * q + a(1-q)$$
+$$a = \frac{175}{4}$$
+\end{document}
+

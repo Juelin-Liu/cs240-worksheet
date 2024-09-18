@@ -1,0 +1,228 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{12}{Oct 20}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+In this lecture, we discussed several specific continuous random variables.
+They are uniform continuous random variables, exponential random variables, normal (Gaussian) random variables, and the standard normal random variable.
+
+\section{Continuous Random Variables}
+\subsection{Uniform Continuous Random Variable}
+A uniform continuous random variable has a uniform probability density in $[a, b]$.
+Its expected value:
+$$E(X) = \frac{b+a}{2}$$
+
+Its variance:
+$$Var(X) = \frac{1}{12}(b-a)^2$$
+
+Its PDF is:
+\begin{equation*}
+  f_X(x) = \begin{cases}
+    \frac{1}{b-a} & a \leq x \leq b \\
+    0 & otherwise
+  \end{cases}
+\end{equation*}
+
+Its CDF:
+\begin{equation*}
+  F_X(x) = \begin{cases}
+    0 & x < a \\
+    \frac{x-a}{b-a} & a \leq x \leq b \\
+    1 & x > b
+  \end{cases}
+\end{equation*}
+
+\subsection{Exponential Random Variable}
+An exponential random variable characterizes the (time/space) interval between events in a Poisson point process.
+Suppose we have a Poisson random variable $X$. We know that $E(X) = \lambda$ which is the expected number of times an event occurs internally with a unit length is $\lambda$.
+Now the question is what is the expected interval between two events? 
+Let's use the random variable $Y$ to represent the size of the interval between the two events.
+
+Its expected value should be:
+$$E(Y) = \frac{1}{\lambda}$$
+
+Its variance:
+$$Var(Y) = \frac{1}{\lambda^2}$$
+
+Its PDF is:
+\begin{equation*}
+  f_X(x) = \begin{cases}
+    \lambda e^{-\lambda x} & 0 < x \\
+    0 & otherwise
+  \end{cases}
+\end{equation*}
+
+Its CDF:
+\begin{equation*}
+  F_X(x) = \begin{cases}
+    1-e^{-\lambda x} & x \geq 0 \\
+    0 & otherwise
+  \end{cases}
+\end{equation*}
+
+\subsection{Normal Random Variable}
+Let $X$ be a normal random variable with $E(X) = \mu$ and $Var(X) = \sigma^2$.
+
+Its probability density function is:
+$$f_X(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{ -\frac{(x - \mu)^2}{2\sigma^2}}$$
+
+Its cumulative distribution function is:
+$$F_X(x) = \frac{1}{2} ( 1 + erf(\frac{x - \mu}{\sigma \sqrt{2}}))$$
+
+where $erf(x) = \frac{1}{\sqrt{\pi}} \int_{-x}^{x} e^{-t^2} dt$
+
+The \textbf{probability mass} of an interval $[a,b]$ is the definite integral:
+$$P(a < X < b) = \int_{a}^{b} \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}} = F_X(b) - F_X(a)$$
+
+\subsection{Standard Normal Random Variable}
+Let $X$ be a normal random variable with $E(X) = 0$ and $Var(X) = \sigma^2 = 1$.
+
+Its probability density function is:
+$$f_X(x) = \frac{1}{ \sqrt{2\pi}} e^{-\frac{x^2}{2}}$$
+
+Its cumulative distribution function is:
+$$F_X(x) = \frac{1}{2\sqrt{\pi}} \int_{-\infty}^{x} e^{- \frac{t^2}{2}} dt$$
+
+\subsection{Standardizing a Normal Variable}
+For a given normal random variable $X$ with mean $\mu$ and variance $\sigma^2$, you can standardize it by defining a new random variable $Y$ given by
+$$Y = \frac{X - \mu}{\sigma}$$
+
+Where $Y$ is a standard normal variable with mean 0 and variance 1.
+
+This is because $Y$ is a linear function of $X$ ($Y = aX + b$), we know $Y$ perceives the normality.
+
+\subsection{Practice Problems}
+\begin{enumerate}
+  \item Suppose that Y has a uniform distribution over the interval (0, 1). \\
+  a) Find F(y). \\
+  b) Show that $P(a \leq Y \leq a+b)$ (for $a \geq 0 , \: b \geq 0$, and $ a+b \leq 1$) depends only upon the value of b.
+  \item A random variable Y has a uniform distribution over the interval $(a, b)$. Derive the variance of Y.
+  \item Let X be a continuous random variable with PDF $f_X(x) = \frac{\lambda}{2} e^{-\lambda |x|}$. \\
+  a) Verify that $f_X$ is a valid PDF. \\
+  b) Evaluate $E(X)$ and $Var(X)$ 
+  \item Let Z denote a normal random variable with mean 0 and standard deviation 1. \\
+  a) Find $P(Z > 1)$ \\
+  b) Find $P(-1 < Z < 1)$ \\
+  c) Find $P(0.3 < Z < 1.5)$
+  \item If $Z$ is a standard normal random variable, find the value $z_0$ such that \\
+  a) $P(Z > z_0) = 0.5$ \\
+  b) $P(Z < z_0) = 0.8643$ \\
+  c) $P(-z_0 < Z < z_0) = 0.90$ \\
+  d) $P(-z_0 < Z < z_0) = 0.99$ 
+  \item A soft-drink machine can be regulated so that it discharges an average of $\mu$ ounces per cup. 
+  If the ounces of fill are normally distributed with a standard deviation of 0, compute the setting for $\mu$ so that 8-ounce cups will overflow only 1 percent of the time.
+\end{enumerate}
+
+\section{Answer}
+\begin{enumerate}
+  \item a) 
+  \begin{equation*}
+    f_X(x) = \begin{cases}
+      0 & x < 0 \\
+      1 & 0 \leq x \leq 1 \\
+      0 & x > 1
+    \end{cases}
+  \end{equation*}
+  \begin{equation*}
+    F_X(x) = \begin{cases}
+      0 & x < 0 \\
+      x & 0 \leq x \leq 1 \\
+      1 & x > 1
+    \end{cases}
+  \end{equation*}
+  \\ b) $P(a < X < a + b) = F_X(a + b) - F_X(a) = b$
+  \item 
+  \begin{equation*}
+    f_X(x) = \begin{cases}
+      0 & x < a \\
+      \frac{1}{b-a} & a \leq x \leq b \\
+      0 & x > b
+    \end{cases}
+  \end{equation*}
+  $E(X) = \int_{a}^{b} x\frac{1}{b-a} dx = \frac{b^2 - a^2}{2(b-a)} = \frac{a+b}{2}$ \\
+  $Var(X) = E(X^2) - (E(X))^2 = \int_{a}^{b} x^2\frac{1}{b-a} dx - (\frac{a+b}{2})^2 = \frac{b^3 - a^3}{3(b-a)} - \frac{(a+b)^2}{4}= \frac{(b-a)^2}{12}$
+  \item a) $P(-\infty < X < \infty) = \int_{-\infty}^{\infty} \frac{\lambda}{2} e^{-\lambda |x|}dx =\int_{0}^{\infty}\lambda e^{-\lambda x}dx = 1$ \\
+  b) $E(X) = \int_{-\infty}^{\infty}\frac{\lambda}{2} xe^{-\lambda |x|}dx = 0$ (symmetry) \\
+  \noindent Or you can use integration by parts:
+  \begin{align*}
+    E(X) &= \int_{-\infty}^{\infty}\frac{\lambda}{2} xe^{-\lambda |x|}dx \\
+    &= \int_{-\infty}^{0}\frac{\lambda}{2} xe^{\lambda x}dx + \int_{0}^{\infty}\frac{\lambda}{2} xe^{-\lambda x}dx 
+    \end{align*}
+    Let $A =  \int_{-\infty}^{0}\frac{\lambda}{2} xe^{\lambda x}dx$, $B = \int_{0}^{\infty}\frac{\lambda}{2} xe^{-\lambda x}$
+    
+    \noindent We now show that $A = -B $ using integration by parts ( $\int uv^{\prime} = uv - \int u^{\prime}v$ ) \\
+    To compute A let $u = x$, $ u^{\prime} = 1$, $v^{\prime} = \frac{\lambda}{2}e^{\lambda x}$, $ v =  \frac{1}{2}e^{\lambda x}$
+    \begin{align*}
+    A &= \int_{-\infty}^{0}\frac{\lambda}{2} xe^{\lambda x}dx \\
+      &=[\frac{1}{2}xe^{\lambda x}]_{-\infty}^{0} - \int_{-\infty}^{0} \frac{1}{2}e^{\lambda x}dx  \\
+      &=-\int_{-\infty}^{0} \frac{1}{2}e^{\lambda x}dx \\
+      &=-[\frac{1}{2\lambda} e^{\lambda x}]_{-\infty}^{0} \\
+      &=-\frac{1}{2\lambda}
+    \end{align*}
+    
+    \noindent To compute B let $u = x$, $ u^{\prime} = 1$, $v^{\prime} = \frac{\lambda}{2}e^{- \lambda x}$, $ v =  -\frac{1}{2}e^{- \lambda x}$
+    \begin{align*}
+    B &= \int_{0}^{\infty}\frac{\lambda}{2} xe^{ - \lambda x}dx \\
+      &=[-\frac{1}{2}xe^{-\lambda x}]_{0}^{\infty} - \int_{0}^{\infty} -\frac{1}{2}e^{ - \lambda x}dx  \\
+      &=\int_{0}^{\infty} \frac{1}{2}e^{-\lambda x}dx \\
+      &=[-\frac{1}{2\lambda} e^{-\lambda x}]_{0}^{\infty} \\
+      &=\frac{1}{2\lambda}
+    \end{align*}
+    
+    \noindent Thus, $E(X) = A + B = 0$
+    
+   $Var(X) = E(X^2) - E(X)^2 = \int_{-\infty}^{\infty}\frac{\lambda}{2} x^2e^{-\lambda |x|}dx = \int_{0}^{\infty}\lambda x^2e^{-\lambda |x|}dx = \frac{2}{\lambda^2}$ 
+   \\ \noindent (use integrate by parts twice) \\
+  \item a) $P(Z > 1) = 0.15866$ \\
+  b) $P(-1 < Z < 1) = (0.5 - P(Z > 1)) + (0.5 - P(Z < -1)) = 1 - 2 * 0.15866 = 0.68268$ \\
+  c) $P(0.3 < Z < 1.5) = (0.5 - P(Z > 1.5)) - (0.5 - P(Z > 0.3)) = 0.38209 - 0.06681 = 0.31528 $
+  \item a) $z_0 = 0$ \\
+  b) $z_0 = 1.1$ \\
+  c) $P(Z < z_0) = 0.9 + (1 - 0.9) / 2 = 0.95$, $z_0 = 1.64$ \\
+  d) $P(Z < z_0) = 0.995$, $z_0 = 2.58$ \\
+  \item $P(Z < \frac{8 - \mu}{0.3}) = 0.99$, $\mu = 7.301$
+  
+\end{enumerate}
+
+\end{document}
+

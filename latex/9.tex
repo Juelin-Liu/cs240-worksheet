@@ -1,0 +1,363 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epsfig}
+\usepackage[right=0.8in, top=1in, bottom=1.2in, left=0.8in]{geometry}
+\usepackage{setspace}
+\spacing{1.06}
+
+\newcommand{\handout}[6]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{\vspace{0.25cm}
+      \hbox to 5.78in { {CS 240:\hspace{0.12cm} Reasoning Under Uncertainty (Fall 21)} \hfill #2 }
+      \vspace{0.48cm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{0.42cm}
+      \hbox to 5.78in { {#3 \hfill #4} }\vspace{0.25cm}
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[5]{\handout{#1}{#2}{#3}{SI Worksheet:\hspace{0.08cm}#4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\E}{{\mathbb E}}
+\DeclareMathOperator{\var}{Var}
+
+\begin{document} 
+
+\lecture{1-9}{Oct 11}{Instructor:\hspace{0.08cm}\emph{Profs Peter J. Hass and Jie Xiong}}{\emph{Juelin Liu}}
+
+
+\section{Introduction}
+The first mid-term will cover materials from lecture 1 to 9.
+This worksheet intends to summarize these materials. 
+
+\section{Set theory}
+\subsection{Core Concepts}
+\begin{itemize}
+  \item An event is a \textbf{set} of outcomes.
+  \item A set is a collection of objects.
+  \item The objects are called elements of the set.
+\end{itemize}
+\subsection{Notations}
+
+\subsubsection{Empty Set}
+\begin{itemize}
+  \item $\emptyset$: empty set, the set with zero object.
+\end{itemize}
+
+\subsubsection{Universal Set}
+\begin{itemize}
+  \item $\Omega$: universal set, the set that contains all possible objects.
+\end{itemize}
+
+\subsubsection{Element}
+We say $x \in S$ if the set $S$ contains element $x$. (otherwise, $x \notin S$)
+
+\subsubsection{Subset}
+We say $S \subset T$ if all elements in $S$ are also in $T$ ($\emptyset \subset S \subset \Omega$.)
+\\ \noindent Note that in the textbook $\subset$ and $\subseteq$ have the same meaning. If $S \subset T$ then $S$ can be equivalent to $T$.
+
+\subsubsection{Complement}
+The complement of a set $S$ is defined as:
+$$ S^{c} = \{ x \in \Omega \: | \: x \notin S \} $$
+Some useful laws:
+ $$ \Omega^{c} = \emptyset $$
+ $$ \emptyset^{c} = \Omega $$
+ $$ (S^{c})^{c} = S $$
+\subsubsection{Power Set}
+The power set $P^{S}$ is the set that contains all subsets of $S$. \\
+\noindent The cardinality (size) of the power set $|P^{S}| = 2^{|S|}$. \\
+\noindent For example, $S = \{1,2\}$, its power set $P^{S} = \{\emptyset, \{1\}, \{2\}, \{1,2\} \}$.
+
+\subsubsection{Disjoint Sets}
+Two sets are disjoint if their intersection is the empty set.
+$$ A \cap B = \emptyset \iff \text{A and B are disjoint}$$
+\subsubsection{Partition}
+We say $S_1, S_2, \ldots, S_n $ form a partition of $S$ if $i \neq j \implies S_i \cap S_j = \emptyset$ and $S_1 \cup S_2 \cup \ldots \cup S_n = S$.
+
+\section{Set algebra}
+\subsection{Set Operation}
+\subsubsection{Union}
+$$ S \cup T =  \{ x | x \in S \: or \: x \in T \}$$
+
+\subsubsection{Intersection}
+$$ S \cap T =  \{ x | x \in S \: and \: x \in T\}$$
+
+\subsubsection{Important Laws}
+DeMorgan's Laws:
+$$(S \cap T)^{c} = S^{c} \cup T^{c}$$
+$$(S \cup T)^{c} = S^{c} \cap T^{c}$$
+
+\noindent Union Distributivity:
+$$S \cup (T \cap U) = (S \cup T) \cap (S \cup U) $$
+
+\noindent (think about how to show these laws using the Venn diagrams)
+
+\section{Probabilistic models}
+We use probabilistic models to describe uncertain situations mathematically. The three key factors are:
+\begin{itemize}
+  \item \textbf{Experiment}: an experiment with a set $\Omega$ of all possible outcomes.
+  \item \textbf{Event}: a set of outcomes (which is a subset of $\Omega$.)
+  \item \textbf{Probability Law}: $P(A) \geq 0 \: \text{for} \: ( A \subset \Omega)$
+\end{itemize}
+
+\section{Inclusion-Exclusion Principle}
+% Intuition: 
+% $$|A \cup B| = |A| + |B| - |A \cap B| $$
+% \noindent Recall that an event is a \textbf{set} of outcomes:
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+% \noindent Similarly:
+% $$|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|$$
+$$P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$$
+
+\section{Discrete Probability Models}
+We are dealing with discrete probability models if $\Omega$ consists of a finite number of possible outcomes.
+
+\subsection{Uniform Discrete Model}
+All possible outcomes in $\Omega$ are equally likely.
+
+\subsection{Odds}
+The odds are x to y in favor of A means $P(A) = \frac{x}{x+y}$
+
+\subsection{Odds Ratio}
+$$Odds(A) = \frac{P(A)}{P(A^c)} = \frac{P(A)}{1 - P(A)}$$
+
+\section{Conditional Probability} 
+General Definition:
+$$P(A | B) = \frac{P(A \cap B)}{P(B)}$$
+
+$P(A | B)$ denotes the conditional probability of A given B.
+
+When $B$ is given, the sample space changes to $B$ and the event space changes to $A \cap B$. 
+
+\subsection{Sequential Model}
+Before discussing the details, it is worth to mention the multiplication rule:
+$$P(\bigcap_{i=1}^{n} A_i) = P(A_1)P(A_2 | A_1)P(A_3 | A_1 \cap A_2) \ldots P(A_n | \bigcap_{i=1}^{n-1} A_{i})$$
+The intuition is instead of computing $P(\bigcap_{i=1}^{n} A)$ as a whole, we can break it into a series of events that depend on the previous outcomes. 
+Then we can compute each event's probability and multiply them together to get the result.
+
+We can use a sequential model when the future outcomes depend on the previous outcomes. 
+The tree-based sequential description can help you visualize this process.
+
+\section{Monty Hall}
+The Monty Hall problem is a mind teaser. 
+People can be tricked into believing that choosing either of the two remaining doors has the same chance of winning.
+But keep in mind that the revealing of one of the goat doors is not at random (which is difficult to understand.)
+Since the host never revealed the door picked by the contestant, we gain no more information for the door picked by the contestant. 
+So the chances of winning stays at $\frac{1}{3}$ if not switching.
+
+\section{Total Probability Theorem}
+Definition:
+
+Let $A_1, A_2, \ldots, A_n$ be disjoint events that form a partition of the sample space $\Omega$ and assume $P(A_i) > 0$ for all i. 
+Then, for any event B, we have: 
+$$P(B) = P(A_1 \cap B) + \ldots + P(A_n \cap B)$$
+
+\noindent Proof (from the textbook, p29):
+
+The events $A_1, A_2, \ldots, A_n$ form a partition of the sample space so that the event B can be decomposed into the disjoint union of its intersections $A_i \cap B$ with the sets $A_i$:
+$$ B = (A_1 \cap B) \cup \ldots \cup (A_n \cap B)$$
+Using the additivity axiom (see lecture 1, p42), it follows that:
+$$ P(B) = P(A_1 \cap B) + \ldots + P(A_n \cap B)$$
+
+\section{Bayes' Rules}
+Intuition:
+
+$A_1, A_2, \ldots, A_n$ are related to the "causes" and $B$ represent the effect.
+We use Bayes' rule to infer the causes based on our observed effect. (textbook, p32) \newline
+\newline \noindent Definition:
+
+Let $A_1, A_2, \ldots, A_n$ be disjoint events that form a partition of the sample space $\Omega$ and assume $P(A_i) > 0$ for all i. 
+Then, for any event B such that $P(B) > 0$, we have: 
+$$P(A_i | B) = \frac{P(A_i)P(B | A_i)}{P(B)} = \frac{P(A_i)P(B | A_i)}{P(A_1)P(B | A_1) + \ldots + P(A_n)P(B | A_n)}$$
+
+\noindent Proof:
+
+The first equality comes from the definition of conditional probability and the second uses the total probability theorem to rewrite $P(B)$. 
+
+\section{Independence}
+Definition:
+
+We say events A and B are independent events if and only if:
+$$ P(A \cap B) = P(A) \times P(B)$$
+
+In addition, if $P(B) > 0$:
+$$P(A | B) = P(A)$$
+
+Note:
+The definition says that the occurrence of event A does not change the probability that event B has occurred (and vice versa.)
+
+It is easy to think that two disjoint events are independent but this is \textbf{not true}.
+The fact is two disjoint events A, B are not independent if $P(A) > 0 \text{{ and }} P(B) > 0$.
+The best practice is to always verify the equation in the above definition. 
+
+\section{Independence of Many Events}
+Definition:
+
+We say that the events $A_1, A_2, \ldots, A_n$ are independent if and only if:
+$$P(\bigcap_{i \in S}A_i) = \prod_{i \in S}P(A_i)$$
+
+for \textbf{every} subset S of $\{1,2,\ldots, n\}$.
+
+\section{Conditional Independence}
+Definition:
+
+We say A and B are conditionally independent given C ($P(C) > 0$) if and only if:
+$$P(A \cap B | C) = P(A | C) P(B | C)$$
+
+In addition, if $P(B \cap C) > 0$:
+$$P(A | B \cap C) = P(A | C)$$
+
+
+\section{Counting}
+\subsection{Counting Principle}
+Intuitively, if there are $a$ ways to do the first thing and regardless of which way to choose there are $b$ ways to do the second thing, then there are $a \times b$ ways to do both.
+
+\subsection{Permutation}
+Permutation is a method to count the number of ways to order objects.
+$$P_n^{n} = n \times (n - 1) \times \ldots \times 1 = n!$$
+
+\subsection{k-Permutation}
+k-Permutation is a method to count the number of ways to form a sequence of size k using k different objects from a set of n objects.
+$$P_k^{n} = \frac{n!}{(n-k)!}$$
+
+\subsection{Combination}
+Combination counts the number of size k subsets of a size n set.
+$$C_k^{n} = \left(\begin{array}{c} n \\ k \end{array}\right) = \frac{n!}{k! \times (n - k)!} = C_{n - k}^n$$
+
+\subsection{Partition}
+Partition counts several ways to partition n objects into $l$ groups of size $n_1, \ldots, n_l$.
+$$\left( \begin{array}{c} n \\ n_1, \ldots, n_l \end{array} \right) = \frac{n!}{n_1! \times n_2! \times \ldots \times n_l!}$$
+
+\section{More on Counting}
+\subsection{Letter Arrangement}
+\subsubsection{Unique Letters}
+Think about how many different ways you can arrange the letters in the word "python".
+This is the simplest case because all the characters in the world are unique. 
+The number of different arrangements is the permutation of the 6 letters \{p,y,t,h,o,n\}, which is 6! = 720.
+
+\subsubsection{Duplicate Letters}
+Then think about how many different ways you can arrange the letters in the word "java".
+You have two a in the word which makes it tricky. I would recommend you list all the arrangements first.
+
+The first method uses permutation to compute all possible arrangements of the 4 letters and then remove duplicates.
+Using permutation, we assume the two $a$ are two different letters $a_1$ and $a_2$.
+We will find that $j-a_1-v-a_2$ and $j-a_2-v-a_1$ are counted as two different arrangements which are duplicated.
+The takeaway is the two $a$ cause the same arrangement to be counted twice. 
+To avoid double counting, we need to divide $4!$ (permutation of the four letters) by $2!$ (double counted due to two $a$) which gives $\frac{4!}{2!} = 12$.
+
+Now, take a few seconds to think about what if there are \textbf{three} $a$ in the word.
+In this case, the same arrangement will be counted for \textbf{3!} times. (\textbf{not 3 times})
+
+The second way is to think of this in terms of partition. Essentially, we are choosing the slots for each unique character in the word. 
+If we fix the two slots for $a$, no matter how we arrange them inside the two slots, we will have the same arrangement if the others are the same.
+In other words, if we determine the slots for a letter then there is only one way to arrange this letter regardless of its number of occurrences in the word. 
+Now the question becomes how many different ways we have to assign slots to each letter (two 'a' are considered as the same letter but take two slots.)
+This is the partition of the slots based on each unique letter's number of occurrences. So the result is $\frac{4!}{1! \times 2! \times 1!} = 12$ 
+
+\subsubsection{More Than One Duplicate Letters}
+Suppose there are $k$ unique characters in the word with frequency $\{n_1, n_2, \ldots,n_k\}$, the number of different arrangements is the same as the number of partitions of the $n$ elements into $k$ sets with cardinality $\{n_1, n_2, \ldots,n_k\}$:
+$$ {n \choose n_1, n_2, \ldots, n_k} $$
+
+\subsection{Seat Arrangement}
+For this type of question, you have n slots and n people. 
+You need to arrange the number of people in a row with certain constraints.
+The main difficulty is to interpret these constraints and translate them into correct formulas. 
+While there is no such one-fits-all strategy, always think about the following:
+\begin{enumerate}
+  \item How many \textbf{distinct objects} you have.
+  \item How many \textbf{slots} you can freely assign to the objects? (You might have n slots but due to the constraint you cannot freely assign each of them.)
+  \item How many different ways you can arrange each of the \textbf{distinct object} if its slot is fixed? (Each distinct object might have more than one element.)
+\end{enumerate}
+Sometimes it is a good idea to fix the slots for certain people/groups before determining the rest. This is called the divide and conquer strategy. 
+
+\subsection{Round Table}
+In this case, the n people are sitting in a round table. Solve it as it is a row problem first and then divide the results by the number of people.
+This is because, for the same arrangement of the n people, there are n ways to count it in the circle through rotation. 
+
+\section{Expectation \& Variance \& Standard Deviation}
+For a discrete random variable, its expected value can be computed using the following formula:
+$$E(X) = \sum_{x \in R} xP(X=x)$$
+Its variance, which measures how far we expect this random variable to be from its expected value:
+$$Var(X) = E[(X - E(X)^2)] = \sum_{k} (k - E(X))^2 \times P(X=k)$$
+Or alternatively:
+$$Var(X) = E(X^2) - E(X)^2$$
+Its standard deviation is the nonnegative roots of its variance:
+$$std(X) = Var(X)$$
+
+\subsection{Linearity of Expectation}
+If $Y = aX+b$ where a and b are real numbers: 
+\begin{align*}
+  E(Y) &= E(aX + b) = aE(X) + b \\
+  Var(Y) &= Var(aX + b) 
+  \\ &= E((aX + b)^2) - E(aX + b)^2 
+  \\ &= E((a^2X^2 + 2abX + b^2) - (aE(X) + b)^2 
+  \\ &= a^2E(X^2) + 2abE(X) + b^2 - a^2E(X)^2 - 2abE(X) - b^2 
+  \\ &= a^2 (E(X^2) - E(X)^2) 
+  \\ &= a^2Var(X)
+\end{align*}
+Note: it is \textbf{not} generally true that $E[g(X)] = g(E(X))$ unless $g(X)$ is a linear function.
+
+\subsection{Discrete Uniform}
+A discrete uniform random variable with range [a, b] takes on any integer value between a and b inclusive. (For simplicity we assume a and b are integers.)
+Each value has the same probability.
+Its PMF is:
+$$P(X = k) = \frac{1}{b - a + 1} \: for \: k = a, \ldots, b$$
+Its expected value is:
+$$E(X) = \frac{a+b}{2}$$
+Its variance is:
+$$Var(X) = \frac{(b-a+1)^2-1}{12}$$
+
+\subsection{Bernoulli}
+A Bernoulli random variable has two possible outcomes. We use 1 (success) or 0 (fail) to represent the two outcomes. 
+Its PMF is often described as:
+$$P(X = 1) = p \: \text{and} \: P(X = 0) = 1 - p$$
+Its expected value is:
+$$E(X) = (1-p) \times 0 + 1 \times p = p$$
+Its variance is:
+$$Var(X) = p - p^2$$
+
+\subsection{Binomial}
+A binomial random variable is associated with the number of successful trials in several independent Bernoulli trials.
+In this formula, n is the total number of independent Bernoulli trials, x is the number of successful trials and p is the probability that a Bernoulli trial is successful.
+Its PMF is:
+$$P(X = k) = {n \choose x} \times p^k \times (1-p)^{n-k}$$
+Its expected value is:
+$$E(X) = \sum_{k=0}^n k \times {n \choose k} p^k (1-p)^{n-k} = np$$
+Its variance is:
+$$Var(X) = np(1-p)$$
+
+\subsection{Gemometric}
+A geometric random variable is associated with the number of independent Bernoulli trials required to come up with the first successful trial. 
+$$P(X = k) = (1-p)^{k-1} \times p$$
+Its expected value is:
+$$E(X) = \sum_{k=0}^{\infty} k(1-p)^{k-1}p = \frac{1}{p}$$
+Its variance is:
+$$Var(X) = \frac{1-p}{p^2}$$
+
+\subsection{Poisson}
+A Poisson random variable is associated with the number of times a random and independent event occurs in a fixed interval.
+In this formula, $\lambda$ is the expected number of occurrences, $k$ is the actual number of occurrences and $e$ is the Euler's number.
+$$P(X = k) = \frac{e^{-\lambda}\lambda^k}{k!}$$
+Its expected value is:
+$$E(X) = \sum_{k=0}^{\infty} k\frac{e^{-\lambda}\lambda^k}{k!} = \lambda $$
+Its variance is:
+$$Var(X) = \lambda$$
+
+\end{document}
+
