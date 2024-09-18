@@ -1,3 +1,3 @@
-# cs240-worksheet
+# Poisson Once More
 
-A collection of worksheets I made during the fall semester in 2021 for CS240 "Reasoning Under Uncertainty". 
+Collection of notes I made during the fall semester 2021 for CS240 "Reasoning Under Uncertainty".
